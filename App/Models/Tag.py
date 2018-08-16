@@ -6,7 +6,7 @@ class TagModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
 
-    article = db.relationship('ArticleTagModel')
+    product = db.relationship('ProductTagModel')
 
     def __init__(self, name):
         self.name = name.lower()

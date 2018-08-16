@@ -1,14 +1,14 @@
 from flask_restful import Resource, reqparse
 from App.Models.Post import PostModel
-from App.Models.ArticleComment import ArticleCommentModel
+from App.Models.ProductComment import ProductCommentModel
 from App.Models.User import UserModel
-from App.Models.Article import ArticleModel
+from App.Models.Product import ProductModel
 from flask import request
 
 class Comment(Resource):
     def get(self,param,param2,offset):
         if int(param2) == 1:
-            comments = ArticleCommentModel.get_comments(
+            comments = ProductCommentModel.get_comments(
                 int(param), int(offset))
 
             user = UserModel.find_by_user(request.remote_addr)
@@ -51,12 +51,12 @@ class Comment(Resource):
                 return {"error" : 3}
 
             if int(param) == 1:
-                comment = ArticleCommentModel(post.postId, data.name, data.email,data.comment)
+                comment = ProductCommentModel(post.postId, data.name, data.email,data.comment)
                 comment.save()
 
-                article = ArticleModel.find_by_id(post.postId)
-                article.comments += 1
-                article.save()
+                product = ProductModel.find_by_id(post.postId)
+                product.comments += 1
+                product.save()
 
                 return {"error": 0}
             else :
@@ -70,7 +70,7 @@ class CommentReaction(Resource):
         try :
             if int(param3) <=2:
                 if int(param) == 1:
-                    comment = ArticleCommentModel.find_by_id(int(param2))
+                    comment = ProductCommentModel.find_by_id(int(param2))
                     print(request.remote_addr)
 
                     if comment :

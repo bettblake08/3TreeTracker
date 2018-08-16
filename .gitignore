@@ -1,8 +1,8 @@
-./node_modules/
-./dist/
-./longrich/
+node_modules/
+dist/
+longrich/
 config.py
-./Public/Assets
-!./Public/Assets/images
-!./Public/Assets/ckeditor
+Public/Assets
+!Public/Assets/images
 app.py
+keygen.py

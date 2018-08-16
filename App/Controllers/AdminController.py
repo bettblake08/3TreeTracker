@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required,create_access_token,create_refresh_t
 from App.Models.RevokedToken import RevokedTokenModel
 from App.Models.AdminUser import AdminUserModel
 from App.Models.RepoFolder import RepoFolderModel
-from App.Models.Article import ArticleModel
+from App.Models.Product import ProductModel
 from App.Models.Post import PostModel
 from App.Models.Tag import TagModel
 
@@ -18,11 +18,11 @@ class AdminController:
     def postsPage(self):
         return render_template('admin/posts.html')
 
-    def addArticlePage(self):
-        return render_template('admin/addArticle.html')
+    def addProductPage(self):
+        return render_template('admin/addProduct.html')
 
-    def editArticlePage(self,param):
-        return render_template('admin/editArticle.html',id=param)
+    def editProductPage(self,param):
+        return render_template('admin/editProduct.html',id=param)
 
     @staticmethod
     def authenticate(username, password):

@@ -1,0 +1,19 @@
+{% extends "layouts/main.html" %} 
+
+{% block title %}home{% endblock %} 
+
+{% block styles %} 
+
+{{stylesheet_tag('main_home_css')| safe}}
+
+{% endblock %} 
+
+
+{% block body %}
+
+<div id="homeComponent" data-home="{{homeId}}"></div>
+
+
+{{javascript_tag('main_home_js') | safe}} 
+
+{% endblock %}

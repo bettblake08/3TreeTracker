@@ -1,16 +1,16 @@
 from flask import render_template,request
 from App.Models.Post import PostModel
-from App.Models.Article import ArticleModel
+from App.Models.Product import ProductModel
 
 class MainController:
 
     def home(self):
         return render_template("main/home.html")
 
-    def articlePage(self, param):
-        return render_template('main/article.html',articleId = param)
+    def productPage(self, param):
+        return render_template('main/Product.html',ProductId = param)
 
-    def getArticle(self,param):
+    def getProduct(self,param):
         p = PostModel.find_by_id(int(param))
 
         if p:
@@ -30,10 +30,10 @@ class MainController:
             return {"error": 1 }
 
 
-    def articleReaction(self, param, param2):
+    def productReaction(self, param, param2):
         try:
             if int(param2) <= 2:
-                comment = ArticleModel.find_by_id(int(param))
+                comment = ProductModel.find_by_id(int(param))
 
                 if comment:
                     comment.set_reaction(request.remote_addr, int(param2))
