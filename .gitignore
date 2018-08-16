@@ -1,0 +1,8 @@
+./node_modules/
+./dist/
+./longrich/
+config.py
+./Public/Assets
+!./Public/Assets/images
+!./Public/Assets/ckeditor
+app.py
