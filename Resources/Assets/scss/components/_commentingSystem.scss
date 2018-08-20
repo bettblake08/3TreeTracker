@@ -1,6 +1,5 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
-
 .commentSection {
     width: 100%;
     float: left;
@@ -9,6 +8,36 @@
         color: $color-grey-dark;
         width: 80%;
         height: 5rem;
+    }
+    .text_input_4 {
+        &,
+        &--normal,
+        &--fail,
+        &--success,
+        &--warning,
+        &--danger,
+        &--loading {
+            input {
+                height: 4rem;
+            }
+        }
+        &__comment {
+            &--active,
+            &--disabled {
+                display: none;
+            }
+        }
+    }
+    .mul_text_input {
+        &__comment {
+            &--active,
+            &--disabled {
+                display: none;
+            }
+        }
+        &__label {
+            display: none;
+        }
     }
 }
 
@@ -119,16 +148,16 @@
                 height: 100%;
             }
         }
-        &__details{
+        &__details {
             width: 85%;
             float: left;
             margin-bottom: 3rem;
         }
         &__name,
-        &__email{
-            width:50%;
-            float:left;
-            padding-right:3rem;
+        &__email {
+            width: 50%;
+            float: left;
+            padding-right: 3rem;
         }
     }
     &__box {
@@ -140,7 +169,7 @@
     &__sendBtn {
         height: 5rem;
         float: right;
-        margin:1rem 0;
+        margin: 1rem 0;
     }
     &__loginRequest {
         color: $color-grey-dark;
@@ -151,40 +180,5 @@
     &__btn {
         height: 5rem;
         float: left;
-    }
-}
-
-.text_input_4 {
-    &,
-    &--normal,
-    &--fail,
-    &--success,
-    &--warning,
-    &--danger,
-    &--loading {
-        input {
-            height: 4rem;
-        }
-    }
-    &__comment {
-        &--active,
-        &--disabled {
-            display: none;
-        }
-    }
-    &__label {
-        display: none;
-    }
-}
-
-.mul_text_input {
-    &__comment {
-        &--active,
-        &--disabled {
-            display: none;
-        }
-    }
-    &__label {
-        display: none;
     }
 }

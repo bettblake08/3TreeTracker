@@ -1,16 +1,18 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
+//White background with a bottom border on hover
+//Label top of the input
 .text_input_3 {
     &,
     &--normal {
-        float:left;
+        float: left;
         input {
             border-style: none;
             border-bottom: solid .1rem $color-grey-light;
             width: 20rem;
             height: 100%;
             transition: all 0.2s;
-            float:left;
+            float: left;
             &:hover {
                 border-bottom-color: $color-edulink-primary;
             }
@@ -20,7 +22,7 @@
     &--success,
     &--warning,
     &--danger,
-    &--loading{
+    &--loading {
         input {
             border-style: none;
             text-indent: 1rem;
@@ -39,7 +41,7 @@
             color: $color-primary-white;
         }
     }
-    &--loading input{
+    &--loading input {
         border-bottom: solid .2rem $color-success-secondary;
     }
     &--fail input {
@@ -54,7 +56,7 @@
     &--danger input {
         border-bottom: solid .2rem $color-danger-primary;
     }
-    &__error{
+    &__error {
         &--active,
         &--disabled {
             @include transition-type-1;
@@ -73,10 +75,10 @@
             position: absolute;
         }
     }
-    &__label{
+    &__label {
         float: left;
-        width: auto;
         padding: 1rem;
         color: $color-edulink-primary;
+        clear: both;
     }
 }

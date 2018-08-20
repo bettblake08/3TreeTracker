@@ -35,6 +35,7 @@
         "react": "^16.4.1",
         "react-countdown-now": "^1.3.0",
         "react-dom": "^16.4.1",
+        "react-slick": "^0.23.1",
         "react-sticky-content": "^1.0.2",
         "sass-loader": "^7.0.3",
         "serviceworker-webpack-plugin": "^1.0.0-alpha02",
@@ -55,6 +56,8 @@
         "@ckeditor/ckeditor5-react": "^1.0.0-beta.1",
         "@nlib/human-readable": "^1.0.1",
         "install": "^0.12.1",
-        "npm": "^6.3.0"
+        "jspdf": "^1.4.1",
+        "npm": "^6.3.0",
+        "resolve-url-loader": "^2.3.0"
     }
 }

@@ -19,13 +19,12 @@ var entries = {
     main_footer_js: [
         jsRoot + "pages/main/footer.jsx"
     ],
+    main_home_js: [
+        jsRoot + "pages/main/home.jsx"
+    ],
     main_home_css: [
         scssRoot + "pages/main/home.scss"
     ],
-    /* 
-        main_home_js: [
-            jsRoot + "pages/main/home.jsx"
-        ], */
     admin_css: [
         scssRoot + "admin.scss"
     ],
@@ -44,25 +43,18 @@ var entries = {
     admin_repo_js: [
         jsRoot + "pages/admin/repo.jsx"
     ],
-    admin_posts_css: [
-        scssRoot + "pages/admin/posts.scss"
+    admin_products_css: [
+        scssRoot + "pages/admin/products.scss"
     ],
-    admin_posts_js: [
-        jsRoot + "pages/admin/posts.jsx"
+    admin_products_js: [
+        jsRoot + "pages/admin/products.jsx"
     ],
-    /* 
-        admin_addArticle_css: [
-            scssRoot + "pages/admin/addProduct.scss"
-        ],
-        admin_addProduct_js: [
-            jsRoot + "pages/admin/addProduct.jsx"
-        ],
-        admin_editProduct_css: [
-            scssRoot + "pages/admin/editProduct.scss"
-        ],
-        admin_editProduct_js: [
-            jsRoot + "pages/admin/editProduct.jsx"
-        ], */
+    admin_accounts_css: [
+        scssRoot + "pages/admin/accounts.scss"
+    ],
+    admin_accounts_js: [
+        jsRoot + "pages/admin/accounts.jsx"
+    ]
 }
 
 const config = {

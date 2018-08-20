@@ -48,6 +48,11 @@ class ProductStatsModel(db.Model):
 
 
     @classmethod
+    def find_by_product(cls,pid):
+        return cls.query.filter_by(productId=pid)
+
+
+    @classmethod
     def check_if_user_has_seen(cls,user,productId):
         stat = cls.query.filter(user=user, productId=productId).first()
         return  bool(stat)

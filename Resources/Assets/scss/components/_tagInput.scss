@@ -1,6 +1,5 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
-
 .tagS,
 .tag__input--active,
 .tag__input--disabled,
@@ -29,6 +28,9 @@
         &--disabled &__name {
             width: 0;
             float: left;
+            input {
+                display: none;
+            }
         }
         &--disabled &__add {
             display: block;

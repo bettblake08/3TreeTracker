@@ -1,5 +1,8 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
+//Transparent background
+//Label top of the input or floating 
+//Designed for a colored parent background
 .text_input_4 {
     &,
     &--normal,
@@ -8,42 +11,80 @@
     &--warning,
     &--danger,
     &--loading {
-        float:left;
-        width:100%;
+        float: left;
+        width: 100%;
         input {
             border-style: none;
             width: 100%;
-            height: 5rem;
+            height: 4rem;
             transition: all 0.2s;
             float: left;
             clear: both;
+            background-color: transparent;
+            &::placeholder {
+                color: $color-grey-light;
+            }
         }
     }
     &,
     &--normal {
+        &,
         input {
-            border-bottom: solid .1rem $color-grey-light;
+            color: $color-edulink-secondary;
+        }
+        input {
+            border-bottom: solid .2rem $color-edulink-secondary;
             &:hover {
-                border-bottom-color: $color-edulink-primary;
+                border-bottom-width: .3rem;
             }
         }
     }
-    &--loading input{
-        border-bottom: solid .2rem $color-success-secondary;
+    &--loading {
+        &,
+        input {
+            color: $color-success-secondary;
+        }
+        input {
+            border-bottom: solid .2rem $color-success-secondary;
+        }
     }
-    &--fail input {
-        border-bottom: solid .2rem $color-error-primary;
+    &--fail {
+        &,
+        input {
+            color: $color-error-primary;
+        }
+        input {
+            border-bottom: solid .2rem $color-error-primary;
+        }
     }
-    &--success input {
-        border-bottom: solid .2rem $color-success-primary;
+    &--success {
+        &,
+        input {
+            color: $color-success-primary;
+        }
+        input {
+            border-bottom: solid .2rem $color-success-primary;
+        }
     }
-    &--warning input {
-        border-bottom: solid .2rem $color-warning-primary;
+    &--warning {
+        &,
+        input {
+            color: $color-warning-primary;
+        }
+        input {
+            border-bottom: solid .2rem $color-warning-primary;
+        }
     }
-    &--danger input {
-        border-bottom: solid .2rem $color-danger-primary;
+    &--danger {
+        &,
+        input {
+            color: $color-danger-primary;
+        }
+        input {
+            border-bottom: solid .2rem $color-danger-primary;
+        }
     }
-    &__error{
+    &__error {
         &--active,
         &--disabled {
             @include transition-type-1;
@@ -70,8 +111,8 @@
         &--active {
             width: 100%;
             float: left;
-            color: $color-grey-fair;
-            padding: 1rem 0;
+            color: $color-grey-light;
+            padding: .5rem 0;
             position: relative;
         }
         &--disabled {
@@ -80,10 +121,7 @@
             position: absolute;
         }
     }
-    &__label{
-        float: left;
-        padding: 1rem 0;
-        color: $color-edulink-primary;
-        clear: both;
+    &__label {
+        display: none;
     }
 }

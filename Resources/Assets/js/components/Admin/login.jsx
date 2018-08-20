@@ -82,7 +82,7 @@ class Login extends Component {
                     //component.setAuthorization(data.access_token);
                     //localStorage.setItem('access_token', data.access_token);
                     //localStorage.setItem('refresh_token', data.refresh_token);
-                    window.location.href = webUrl + "admin/posts";
+                    window.location.href = webUrl + "admin/products";
                     break;
                 }
                 case 1:

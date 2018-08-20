@@ -10,7 +10,6 @@ class PostModel(db.Model):
     postType = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
-
     def __init__(self, postId , postType):
         self.postId = postId
         self.postType = postType

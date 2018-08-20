@@ -1,10 +1,14 @@
 /* btnIcon is a class for buttons containing an icon and a label */
+
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
-
 .btnIcon_1 {
-    background-color: $color-edulink-primary;
     &,
+    &--normal {
+        background-color: $color-edulink-primary;
+    }
+    &,
+    &--normal,
     &--disabled,
     &--success,
     &--failed,

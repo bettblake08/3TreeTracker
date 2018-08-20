@@ -17,14 +17,14 @@ class CommentingSystem extends Component {
             this.setComments = this.setComments.bind(this);
             this.getComments = this.getComments.bind(this);
             this.toggleViewAll = this.toggleViewAll.bind(this);
+            this.clearComments = this.clearComments.bind(this);
 
             this.state = {
                 errorPopup:{},
                 preview:this.props.preview == undefined ? {state:false,count:0} : this.props.preview,
                 userId:"",
                 comments:{
-                    data: [],
-                    head: -1
+                    data: []
                 },
                 ajax: {
                     getComments: {
@@ -36,7 +36,24 @@ class CommentingSystem extends Component {
         }
 
     componentDidMount(){
+        var state = this.props.parent.state;
+        state.commentingSystem = this;
+        this.props.parent.setState(state);
+
         this.getComments();
+    }
+
+    clearComments(){
+        var state = this.state;
+
+        if (state.comments.data.length > 0 ){
+            state.comments = {
+                data: []
+            }
+
+            this.setState(state);
+            console.log("Comments Cleared!");
+        }
     }
 
     setCommentInput(){
@@ -44,12 +61,15 @@ class CommentingSystem extends Component {
     }
 
     setComments() {
-        var comments = this.state.comments;
+        var comments = this.state.comments.data;
         var preview = this.state.preview;
 
         if (comments != [] || comments != null) {
+            comments = comments.reverse();
+            console.log(comments);
+
             return (
-                comments.data.map((item,i)=>{
+                comments.map((item,i)=>{
                     if(preview.state == true && preview.count <= i){   return;  }
                     else{
                         return <Comment key={i} comment={item} main={this} />;
@@ -91,7 +111,7 @@ class CommentingSystem extends Component {
 
         switch(this.props.commentingOn){
             case 1:{
-                url += "comment/" + this.props.article.post.id;
+                url += "comment/" + this.props.product.post.id;
                 break;
             }
         }
@@ -196,7 +216,6 @@ class CommentInput extends Component {
     }
 
     postComment(){
-        console.log("Submission has begun.");
 
         var component = this;
         var state = this.state;
@@ -221,7 +240,7 @@ class CommentInput extends Component {
 
         switch(this.props.main.props.commentingOn){
             case 1:{
-                url += this.props.main.props.article.log.id + "/0";
+                url += this.props.main.props.product.log.id + "/0";
                 break;
             }
         }
@@ -397,16 +416,17 @@ class Comment extends Component {
                 case 0: {
                     var prevReaction = state.reaction;
                     state.reaction = reaction;
+                    console.log("Reaction change : " + prevReaction + " " + reaction);
 
                     switch (prevReaction){
                         case 0:{
                             switch (reaction) {
                                 case 1: {
-                                    state.likes++;
+                                    state.stats.likes++;
                                     break;
                                 }
                                 case 2: {
-                                    state.dislikes++;
+                                    state.stats.dislikes++;
                                     break;
                                 }
                             }
@@ -415,8 +435,8 @@ class Comment extends Component {
                         case 1:{
                             switch (reaction) {
                                 case 2: {
-                                    state.likes--;
-                                    state.dislikes++;
+                                    state.stats.likes--;
+                                    state.stats.dislikes++;
                                     break;
                                 }
                             }
@@ -425,8 +445,8 @@ class Comment extends Component {
                         case 2:{
                             switch (reaction) {
                                 case 1: {
-                                    state.dislikes--;
-                                    state.likes++;
+                                    state.stats.dislikes--;
+                                    state.stats.likes++;
                                     break;
                                 }
                             }
@@ -493,7 +513,7 @@ class Comment extends Component {
                                         config={{
                                             icon: "dislike",
                                             class: "iconBtn",
-                                            action: () => { this.reactToComment(1)}
+                                            action: () => { this.reactToComment(2)}
                                         }}
                                     />
                                 </div>
@@ -509,7 +529,7 @@ class Comment extends Component {
                                         config={{
                                             icon: "like",
                                             class: "iconBtn",
-                                            action: () => { this.reactToComment(2)}
+                                            action: () => { this.reactToComment(1)}
                                         }}
                                     />
                                 </div>

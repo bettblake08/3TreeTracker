@@ -22,9 +22,8 @@ class ProductModel(db.Model):
     tags = db.relationship('ProductTagModel')
     stats = []
 
-    def __init__(self, title, author, body, summary, imageId):
+    def __init__(self, title, body, summary, imageId):
         self.title = title
-        self.author = author
         self.body = body
         self.summary = summary
         self.imageId = imageId
@@ -37,7 +36,6 @@ class ProductModel(db.Model):
         return {
             "id": self.id, 
             "title": self.title,
-            "author": self.author, 
             "body": self.body, 
             "summary": self.summary, 
             'image': self.image.json(),

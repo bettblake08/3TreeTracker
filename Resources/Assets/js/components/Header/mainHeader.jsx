@@ -75,7 +75,7 @@ class MainHeader extends Component {
                                 <img src={webUrl + 'assets/images/logo2.png'} />
                             </div>
                         </a>
-                        <div className="header__title f_banner_1">Edulink</div>
+                        <div className="header__title f_banner_1">Longrich</div>
                     </div>
 
                     <div className="header__right">

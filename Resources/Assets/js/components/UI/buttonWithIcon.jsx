@@ -17,7 +17,6 @@ class ButtonWithIcon extends Component {
             label:this.props.config.label == undefined ? "" : this.props.config.label
         }
 
-        this.setStatus = this.setStatus.bind(this);
     }
 
     componentDidMount(){
