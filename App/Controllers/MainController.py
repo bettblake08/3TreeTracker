@@ -1,8 +1,8 @@
 from flask import render_template,request
 from App.Models.Post import PostModel
 from App.Models.Product import ProductModel
-
 from App.Models.LongrichUser import LongrichUserModel
+from App.Models.Tag import TagModel
 
 class MainController:
 
@@ -39,6 +39,46 @@ class MainController:
             "content":[x.json() for x in users]
         }
 
+    @staticmethod
+    def getProducts(offset):
+        posts = PostModel.get_posts_by_offset(offset)
+        tags = []
+
+        for p in posts:
+            post = p.get_post()
+            ts = post.tags
+
+            for t in ts:
+                if t.tagId not in tags:
+                    tags.append(t.tagId)
+
+        tagsFound = TagModel.get_all_tags(tags)
+        content = []
+
+        for p in posts:
+            x = {}
+            post = p.get_post()
+
+            x['log'] = p.json()
+            x['post'] = post.json()
+            x['post']['body'] = ""
+
+            ts = post.tags
+            xtags = []
+
+            for t in ts:
+                for y in tagsFound:
+                    if t.tagId == y.id:
+                        xtags.append(y.json())
+            
+            x['tags'] = xtags
+
+            content.append(x)
+
+
+        return {"error":0,"content":content}
+
+
     def productReaction(self, param, param2):
         try:
             if int(param2) <= 2:
@@ -53,6 +93,7 @@ class MainController:
                 return {"error": 2}
         except:
             return {"error": 1}
+
 
     def getForm(self):
         return {

@@ -315,7 +315,7 @@ class ProductsView extends Component {
         }
 
         axios({
-            url: webUrl + "admin/getProducts/" + state.offset,
+            url: webUrl + "getProducts/" + state.offset,
             method: "GET"
         }).catch((response) => {
 

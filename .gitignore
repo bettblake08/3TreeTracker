@@ -1,6 +1,7 @@
 node_modules/
 dist/
 longrich/
+build/
 config.py
 Public/Assets
 !Public/Assets/images

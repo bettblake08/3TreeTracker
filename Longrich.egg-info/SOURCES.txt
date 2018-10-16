@@ -1,4 +1,5 @@
 setup.py
+App/__init__.py
 Longrich.egg-info/PKG-INFO
 Longrich.egg-info/SOURCES.txt
 Longrich.egg-info/dependency_links.txt

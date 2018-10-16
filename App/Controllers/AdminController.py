@@ -56,7 +56,8 @@ class AdminController:
 
             resp = jsonify({
                 'error': 0,
-                'message': 'Logged in as {}'.format(current_user.username)
+                'message': 'Logged in as {}'.format(current_user.username),
+                'access_token':access_token
             })
 
             set_access_cookies(resp,access_token,900)

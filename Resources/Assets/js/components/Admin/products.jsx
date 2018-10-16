@@ -37,22 +37,6 @@ class Products extends Component {
 
     render() {
         var view = this.state.view;
-        var viewClass = "view__options";
-
-        switch (view) {
-            case 1: {
-                viewClass += "--1";
-                break;
-            }
-            case 2: {
-                viewClass += "--2";
-                break;
-            }
-            case 3: {
-                viewClass += "--3";
-                break;
-            }
-        }
 
         return (
 
@@ -237,8 +221,8 @@ class Product extends Component {
                     onClick={
                         ()=>{
                             parent.setView(3)
-                            parent.state.editProduct.state.productId = post.post.id;
-                            parent.state.editProduct.getProduct();
+                            parent.state.EditProduct.state.productId = post.post.id;
+                            parent.state.EditProduct.getProduct();
                         }}></div>
                 
                 <div className="pro--1__con__down">
@@ -326,15 +310,7 @@ class AddProduct extends Component {
             buttons: [],
             editor: {},
             form: {
-                title: {
-                    value: "",
-                    error: ""
-                },
                 body: "<p>Start editing now!</p>",
-                summary: {
-                    value: "",
-                    error: ""
-                }
             }
         }
 
@@ -385,9 +361,9 @@ class AddProduct extends Component {
 
         var formData = {
             pro__image: imageFile.id,
-            pro__title: form.title.value,
+            pro__title: textInputs[0].state.inputValue,
             pro__body: form.body,
-            pro__summary: form.summary.value,
+            pro__summary: textInputs[1].state.inputValue,
             pro__tags: tags
         };
 
@@ -414,18 +390,6 @@ class AddProduct extends Component {
             errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
         })
 
-    }
-
-    handleTitleChange(e) {
-        var state = this.state;
-        state.form.title.value = e.target.value.substr(0, 79);
-        this.setState(state);
-    }
-
-    handleSummaryChange(e) {
-        var state = this.state;
-        state.form.summary.value = e.target.value.substr(0, 199);
-        this.setState(state);
     }
 
     toggleRepo() {

@@ -100,3 +100,29 @@ class AccountController:
             return resp
         except:
             return jsonify({"error": 1, 'error_msg': 'Something went wrong'}), 500
+
+    @staticmethod
+    def getLongrichAccounts(name,country,offset):
+        users = LongrichUserModel.get_users_by_offset(name,country,offset)
+        placements = []
+
+        for u in users:            
+            if u.placementId not in placements:
+                placements.append(u.placementId)
+
+        placementsFound = LongrichUserModel.get_placements(placements)
+        content = []
+
+        for u in users:
+            x = {}
+            x['account'] = u.json()
+
+            for y in placementsFound:
+                if u.placementId == y.id:
+                    x['account']['placement'] = y.json()
+            
+            content.append(x)
+
+
+        return {"error":0,"content":content}
+
