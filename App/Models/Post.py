@@ -1,6 +1,6 @@
 import datetime
 from db import db
-from App.Models.Article import ArticleModel
+from App.Models.Product import ProductModel
 
 class PostModel(db.Model):
     __tablename__ = "posts"
@@ -9,7 +9,6 @@ class PostModel(db.Model):
     postId = db.Column(db.Integer)
     postType = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
-
 
     def __init__(self, postId , postType):
         self.postId = postId
@@ -43,7 +42,7 @@ class PostModel(db.Model):
 
     def get_post(self):
         if self.postType == 1:
-            return ArticleModel.find_by_id(self.postId)
+            return ProductModel.find_by_id(self.postId)
 
     def save(self):
         db.session.add(self)
@@ -53,10 +52,10 @@ class PostModel(db.Model):
     def delete(self):
 
         if self.postType == 1:
-            article = ArticleModel.find_by_id(self.postId)
+            product = ProductModel.find_by_id(self.postId)
 
-            if article :
-                article.delete()
+            if product :
+                product.delete()
         
         db.session.delete(self)
         db.session.commit()

@@ -1,0 +1,16 @@
+{% extends "layouts/admin.html" %}
+
+{%  block title %}Products{% endblock   %}
+
+{%  block scripts %}
+    {{stylesheet_tag('admin_products_css') | safe}}
+
+{%  endblock    %}
+
+{%  block body  %}
+
+    <div id="productsViewComponent"></div>
+
+    {{javascript_tag('admin_products_js')  |   safe}}
+
+{% endblock %}

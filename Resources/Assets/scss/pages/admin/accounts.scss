@@ -1,0 +1,175 @@
+@import "../../abstracts/mixins";
+@import "../../abstracts/variables";
+#main {
+    height: 40rem;
+    margin: 5rem auto;
+    position: static;
+}
+
+.topBar {
+    border-bottom: solid .1rem $color-edulink-primary;
+    float: left;
+    width: 100%;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    &__title {
+        color: $color-edulink-primary;
+        padding: 1rem;
+        float: left;
+        width: 100%;
+    }
+    &__searchBar {
+        float: left;
+        margin-right: 2rem;
+        width: 20rem;
+        height: 4rem;
+    }
+    &__searchBtn {
+        height: 4rem;
+        width: auto;
+        float: right;
+    }
+}
+
+.content {
+    &__view {
+        min-height: 60vh;
+        float: left;
+        width: 100%;
+    }
+}
+
+.loadBtn {
+    margin-top: 2rem;
+    float: left;
+    width: 100%;
+}
+
+.popUp__content {
+    width: 150vh;
+    height: 80vh;
+}
+
+.account {
+    width: 100%;
+    float: left;
+    margin: 1rem 0;
+    height: auto;
+    box-shadow: $box-shadow-light;
+    display: grid;
+    grid-template-columns: [title] 20% [gender] 5% [nation] 5% [email] 20% [phoneNo] 10% [code] 5% [placement] 20% [verified] 5% [buttons] 10%;
+    grid-template-rows: auto;
+    &__title,
+    &__nation,
+    &__email,
+    &__code,
+    &__gender,
+    &__phoneNo,
+    &__code,
+    &__verified--t,
+    &__verified--f,
+    &__placement {
+        float: left;
+        height: 5rem;
+        overflow: hidden;
+        line-height: 5rem;
+        padding: 0 .5rem;
+    }
+    &__email {
+        grid-column: span email;
+        background-color: $color-edulink-primary;
+        color: $color-primary-white;
+    }
+    &__nation {
+        grid-column: span nation;
+        background-color: $color-edulink-secondary;
+        color: $color-primary-white;
+    }
+    &__gender {
+        grid-column: span gender;
+    }
+    &__code {
+        grid-column: span code;
+    }
+    &__placement {
+        grid-column: span placement;
+    }
+    &__title {
+        grid-column: span name;
+    }
+    &__verified {
+        &--t,
+        &--f {
+            grid-column: span verified;
+        }
+        &--t {
+            background-color: $color-success-primary;
+            color: $color-primary-white;
+        }
+        &--f {
+            background-color: $color-error-primary;
+            color: $color-primary-white;
+        }
+    }
+    &__buttons {
+        grid-column: span buttons;
+        height: 5rem;
+        &__button {
+            width: 5rem;
+            height: 5rem;
+            float: right;
+            padding: 1rem;
+        }
+    }
+}
+
+.reg {
+    &__form {
+        position: relative;
+        width: 100%;
+        float: left;
+        h1 {
+            color: $color-grey-dark;
+            margin-bottom: 2rem;
+            float: left;
+        }
+    }
+    &__placement {
+        float: left;
+        width: 100%;
+        margin-bottom: 3rem;
+        padding-left: 1rem;
+        &__comment {
+            color: $color-grey-light;
+            float: left;
+            margin: .5rem 0;
+        }
+        &__label {
+            color: $color-edulink-secondary;
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+.editPP {
+    width: 100%;
+    padding: 5% 10%;
+    position: relative;
+    float: left;
+    &__content {
+        float: left;
+        width: 100%;
+        margin: 3rem 0;
+    }
+    &__buttons {
+        width: 38rem;
+        float: left;
+        margin: 2rem 2rem;
+        &__button {
+            width: 15rem;
+            margin-right: 2rem;
+            float: left;
+            height: 5rem;
+        }
+    }
+}

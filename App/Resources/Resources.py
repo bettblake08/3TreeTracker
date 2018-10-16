@@ -4,6 +4,8 @@ from App.Resources.RepoFile import RepoFile
 from App.Resources.AdminUser import AdminUser
 from App.Resources.Tag import Tag, Tags
 from App.Resources.Post import Post
-from App.Resources.Article import AdminArticle
+from App.Resources.AdminProduct import AdminProduct
 from App.Resources.CommentSystem import Comment,CommentReaction
-
+from App.Resources.LongrichUser import LongrichUser
+from App.Resources.AdminLongrichUser import AdminLongrichUser
+from App.Resources.RootLongrichUser import RootLongrichUser

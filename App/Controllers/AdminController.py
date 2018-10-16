@@ -4,9 +4,10 @@ from flask_jwt_extended import jwt_required,create_access_token,create_refresh_t
 from App.Models.RevokedToken import RevokedTokenModel
 from App.Models.AdminUser import AdminUserModel
 from App.Models.RepoFolder import RepoFolderModel
-from App.Models.Article import ArticleModel
+from App.Models.Product import ProductModel
 from App.Models.Post import PostModel
 from App.Models.Tag import TagModel
+from App.Models.LongrichUser import LongrichUserModel
 
 class AdminController:
     def adminLoginPage(self):
@@ -15,14 +16,11 @@ class AdminController:
     def repoPage(self):
         return render_template('admin/repo.html')
 
-    def postsPage(self):
-        return render_template('admin/posts.html')
+    def productsPage(self):
+        return render_template('admin/products.html')
 
-    def addArticlePage(self):
-        return render_template('admin/addArticle.html')
-
-    def editArticlePage(self,param):
-        return render_template('admin/editArticle.html',id=param)
+    def longrichAccountsPage(self):
+        return render_template('admin/accounts.html')
 
     @staticmethod
     def authenticate(username, password):
@@ -58,7 +56,8 @@ class AdminController:
 
             resp = jsonify({
                 'error': 0,
-                'message': 'Logged in as {}'.format(current_user.username)
+                'message': 'Logged in as {}'.format(current_user.username),
+                'access_token':access_token
             })
 
             set_access_cookies(resp,access_token,900)
@@ -89,24 +88,25 @@ class AdminController:
     @staticmethod
     def retrieveRepoContentByFolder(folderId):
         if folderId == "root":
-            content = RepoFolderModel().get_root_content(folderId)
+            content = RepoFolderModel.get_root_content(folderId)
             return jsonify({"error": 0, "content": content})
 
         else :
-            folder = RepoFolderModel().find_by_id(folderId)
+            folder = RepoFolderModel.find_by_id(folderId)
             if bool(folder):
-                content = RepoFolderModel().get_content(folderId)
+                content = folder.get_content(folderId)
                 return jsonify({"error": 0, "content": content})
             else:
                 return jsonify({"error":1, "error_msg":"Folder doesn't exist!"})
 
     @staticmethod
-    def getPosts(offset):
+    def getProducts(offset):
         posts = PostModel.get_posts_by_offset(offset)
         tags = []
 
         for p in posts:
-            ts = p.post.tags
+            post = p.get_post()
+            ts = post.tags
 
             for t in ts:
                 if t.tagId not in tags:
@@ -117,11 +117,13 @@ class AdminController:
 
         for p in posts:
             x = {}
+            post = p.get_post()
+
             x['log'] = p.json()
-            x['post'] = p.post.json()
+            x['post'] = post.json()
             x['post']['body'] = ""
 
-            ts = p.post.tags
+            ts = post.tags
             xtags = []
 
             for t in ts:
@@ -131,6 +133,32 @@ class AdminController:
             
             x['tags'] = xtags
 
+            content.append(x)
+
+
+        return {"error":0,"content":content}
+
+
+    @staticmethod
+    def getLongrichAccounts(name,country,offset):
+        users = LongrichUserModel.get_users_by_offset(name,country,offset)
+        placements = []
+
+        for u in users:            
+            if u.placementId not in placements:
+                placements.append(u.placementId)
+
+        placementsFound = LongrichUserModel.get_placements(placements)
+        content = []
+
+        for u in users:
+            x = {}
+            x['account'] = u.json()
+
+            for y in placementsFound:
+                if u.placementId == y.id:
+                    x['account']['placement'] = y.json()
+            
             content.append(x)
 
 
