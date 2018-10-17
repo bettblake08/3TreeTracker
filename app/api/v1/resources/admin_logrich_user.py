@@ -1,9 +1,12 @@
-from flask_restful import Resource,reqparse
-from app.database.models import LongrichUserModel
+from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash
+
+from app.database.models import LongrichUserModel
+
 
 class AdminLongrichUser(Resource):
     def post(self):
+        """ Add Longrich User Account Endpoint """
         parser = reqparse.RequestParser()
 
         parser.add_argument('name',
@@ -42,25 +45,30 @@ class AdminLongrichUser(Resource):
 
         data = parser.parse_args()
 
-        try : 
-            user = LongrichUserModel(
-                name=data.name,
-                surname=data.surname,
-                email=data.email,
-                phoneNo=data.phoneNo,
-                gender=data.gender,
-                nationality=data.nationality,
-                placement=data.placement,
-                password=generate_password_hash(data.password))
+        user = LongrichUserModel(
+            name=data.name,
+            surname=data.surname,
+            email=data.email,
+            phoneNo=data.phoneNo,
+            gender=data.gender,
+            nationality=data.nationality,
+            placement=data.placement,
+            password=generate_password_hash(data.password)
+            )
 
+        try:
             user.save()
 
-            return {"error": 0}
-        except :
-            return {"error": 1}
+            return {
+                "message": "You have successfully created a longrich account!"
+                }, 201
+        except:
+            return {
+                "message": "Failed to create a user account!"
+                }, 500
 
-
-    def put(self,param):
+    def put(self, param):
+        """ Update Longrich User Account Placement User Enpoint """
         parser = reqparse.RequestParser()
 
         parser.add_argument('placementId',
@@ -72,9 +80,20 @@ class AdminLongrichUser(Resource):
 
         user = LongrichUserModel.find_by_id(int(param))
 
-        if user:
-            user.placementId = data.placementId
+        if not user:
+            return {
+                "message": "User does not exist!"
+                }, 404
+
+        user.placementId = data.placementId
+
+        try:
             user.save()
-            return {"error": 0}
-        else:
-            return {"error": 1}
+            return {
+                "message": "You have successfully updated the user placement id!"
+            }, 200
+
+        except:
+            return {
+                "message":"Fialed to update user placement id!"
+            }, 500

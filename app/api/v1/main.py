@@ -50,8 +50,16 @@ API.add_resource(LongrichUser, '/longrichAccount')
 def refresh_token():
     """ This function refreshes an expired token."""
     user = get_jwt_identity()
-    resp = jsonify({'error': 0})
-    set_access_cookies(resp, create_access_token(identity=user))
+    resp = jsonify({
+        "message": "You have successfully refreshed token!"
+        })
+    set_access_cookies(
+        resp,
+        create_access_token(
+            identity=user,
+            fresh=True
+            )
+        )
     return resp
 
 
@@ -68,7 +76,7 @@ def get_products(offset):
     """ This function redirects the api request to the main controller that handles
         the retrieval of all products' data.
     """
-    return MAIN_CONTROLLER.get_products(int(offset))
+    return MAIN_CONTROLLER.get_products(offset)
 
 
 @API_V1_MAIN.route('/productReaction/<string:param>/<string:param2>')

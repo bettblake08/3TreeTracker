@@ -1,3 +1,4 @@
+""" This module hosts the repo folder api resource. """
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
 
@@ -5,68 +6,145 @@ from app.database.models import RepoFolderModel
 
 
 class RepoFolder(Resource):
-
-    def post(self,param):
+    """ This class is the repo folder api resource. """
+    def post(self, param):
+        """ Post A New Repo Folder Endpoint"""
         parser = reqparse.RequestParser()
-        parser.add_argument("parentId",required=True , help="A parent folder id is required")
-        parser.add_argument("name",required=True,help="A name is required")
+
+        parser.add_argument(
+            "parentId",
+            required=True,
+            help="A parent folder id is required"
+            )
+
+        parser.add_argument(
+            "name",
+            required=True,
+            help="A name is required"
+            )
 
         data = parser.parse_args()
-        
-        if RepoFolderModel().exists(data.name,data.parentId):
-            return {    "error":1   }
-        else :
-            newFolder = RepoFolderModel()
-            newFolder.name = data.name
-
-            if data.parentId == "root":
-                 data.parentId = 0
-
-            newFolder.parent = data.parentId
-          
-            newFolder.save()
-            return {    "error": 0  }
-
-    def put(self,param):
-        parser = reqparse.RequestParser()
-        parser.add_argument("folderId",required=True , help="A folder id is required")
-        parser.add_argument("name",required=True,help="A folder name is required")
-
-        data = parser.parse_args()
-
-        folder = RepoFolderModel().find_by_id(int(data.folderId))
-
-        if bool(folder):
-            folder.name = data.name
-            folder.save()
-            return {"error": 0}
-        else :
+        if RepoFolderModel.exists(data.name, data.parentId):
             return {
-                "error":1,
-                "error_msg":"Folder doesn't exist!"
-            }
+                "message":"Folder already exists!"
+                }, 403
+
+        new_folder = RepoFolderModel()
+        new_folder.name = data.name
+
+        if data.parentId == "root":
+            data.parentId = 1
+
+        new_folder.parent = data.parentId
+
+        try:
+            new_folder.save()
+            return {
+                "message": "You have successfully created a new repo folder!"
+            }, 201
+
+        except:
+            return {
+                "message": "Failed to create a new repo folder!"
+            }, 500
+
+
+    def put(self, param):
+        """ Update Repo Folder Endpoint
+        :args
+            param:  Repo folder id
+        """
+        parser = reqparse.RequestParser()
+
+        parser.add_argument(
+            "name",
+            required=True,
+            help="A folder name is required"
+            )
+
+        data = parser.parse_args()
+
+        try:
+            folder_id = int(param)
+        except:
+            return {
+                "message": "Invalid repo folder id!"
+            }, 400
+
+        folder = RepoFolderModel.find_by_id(folder_id)
+
+        if not folder:
+            return {
+                "message": "Folder does not exist!"
+            }, 404
+
+        folder.name = data.name
+
+        try:
+            folder.save()
+            return {
+                "message": "You have successfully updated the repo folder!"
+            }, 200
+        except:
+            return {
+                "message": "Failed to update the repo folder!"
+            }, 500
+
 
     def get(self, param):
-        folder = RepoFolderModel().find_by_id(param)
+        """ Soft Delete Repo Folder Endpoint """
 
-        if folder :
-            occupied = folder.check_if_contains_content(param)
-
-            if not occupied:
-                folder.delete()
-                return {"error": 0}
-            else:
-                return {"error": 1, "error_msg": "Folder contains files and/or folders"}
-
-        else :
-            return {"error": 2, "error_msg": "Folder doesn't exist"}
-
-
-    def delete(self,param):
-        folder = RepoFolderModel().find_by_id(param)
+        try:
+            folder_id = int(param)
+        except:
+            return {
+                "message": "Invalid repo folder id!"
+            }, 400
         
-        if folder:
+        folder = RepoFolderModel.find_by_id(folder_id)
+
+        if not folder:
+            return {
+                "message": "Folder does not exist!"
+            }, 404
+
+        occupied = folder.check_if_contains_content(folder_id)
+
+        if occupied:
+            return {
+                "message": "Folder contains files and/or folders!"
+            }, 403
+        
+        try:
             folder.delete()
-            return {"error": 0}
-        else:
-            return {"error": 1, "error_msg": "Folder doesn't exist"}
+        except:
+            return {
+                "message": "Failed to delete repo folder!"
+            }
+
+    def delete(self, param):
+        """ Hard Delete Repo Folder Endpoint """
+
+        try:
+            folder_id = int(param)
+        except:
+            return {
+                "message": "Invalid repo folder id!"
+            }, 400
+
+        folder = RepoFolderModel.find_by_id(folder_id)
+
+        if not folder:
+            return {
+                "message": "Folder does not exist!"
+            }
+        
+        try:
+            folder.delete()
+            return {
+                "message": "You have successfully deleted the repo folder!"
+            }
+        except:
+            return {
+                "message": "Failed to delete repo folder!"
+            }, 500

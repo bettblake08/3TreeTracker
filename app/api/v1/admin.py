@@ -14,7 +14,6 @@ API_V1_ADMIN = Blueprint("API_V1_ADMIN", __name__)
 API = Api(API_V1_ADMIN)
 ADMIN_CONTROLLER = AdminController()
 
-
 API.add_resource(AdminUser, '/user/<string:name>')
 API.add_resource(RepoFolder, '/repoFolder/<string:param>')
 API.add_resource(RepoFile, '/repoFile/<string:id>')
@@ -24,14 +23,7 @@ API.add_resource(Post, '/post/<string:param>')
 API.add_resource(AdminLongrichUser, '/longrichAccount/<string:param>')
 API.add_resource(AdminProduct, '/product/<string:param>')
 API.add_resource(RootLongrichUser, '/rootlongrichAccount')
-
-
-UPLOAD_VIEW = UploadAPI.as_view('upload_view')
-
-API_V1_ADMIN.add_url_rule('/uploadFiletoRepo',
-                          view_func=UPLOAD_VIEW, methods=['POST', ])
-API_V1_ADMIN.add_url_rule('/uploadFiletoRepo/<uuid>',
-                          view_func=UPLOAD_VIEW, methods=['DELETE', ])
+API.add_resource(UploadAPI, '/uploadFiletoRepo/<uuid>')
 
 
 @API_V1_ADMIN.route('/loginAuth', methods=['POST'])
@@ -84,7 +76,7 @@ def admin_products(offset):
     """ This function redirects the api request to the admin controller that handles
         the retrieval of all products' data.
     """
-    return ADMIN_CONTROLLER.get_products(int(offset))
+    return ADMIN_CONTROLLER.get_products(offset)
 
 
 @API_V1_ADMIN.route('/getAccounts/<string:name>/<string:country>/<string:offset>')
@@ -93,4 +85,4 @@ def admin_longrich_accounts(name, country, offset):
     """ This function redirects the api request to the admin controller that handles
         the retrieval of all longrich accounts.
     """
-    return ADMIN_CONTROLLER.get_longrich_accounts(name, country, int(offset))
+    return ADMIN_CONTROLLER.get_longrich_accounts(name, country, offset)

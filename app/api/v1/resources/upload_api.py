@@ -1,10 +1,11 @@
+""" This module hosts the upload api resource."""
 from flask import jsonify
-from flask_restful import MethodView, request
+from flask_restful import Resource, request
 
 from app.managers.fine_uploader import FineUploader
 
 
-class UploadAPI(MethodView):
+class UploadAPI(Resource):
     """ View which will handle all upload requests sent by Fine Uploader.
 
     Handles POST and DELETE requests.
@@ -13,22 +14,13 @@ class UploadAPI(MethodView):
 
     def post(self):
         """A POST request. Validate the form and then handle the upload
-        based ont the POSTed data. Does not handle extra parameters yet.
+        based on the POSTed data. Does not handle extra parameters yet.
         """
-
-        """  
         try:
             self.up.handle_upload(request.files['qqfile'], request.form)
-            return jsonify({"success": True}), 200
-        except :
-            return jsonify({"success": False}), 400 
-        """
-
-        self.up.handle_upload(request.files['qqfile'], request.form)
-        return jsonify({"success": True}), 200
-
-      
-       
+            return {"success": True}, 200
+        except:
+            return {"success": False}, 400
 
     def delete(self, uuid):
         """A DELETE request. If found, deletes a file with the corresponding
@@ -36,6 +28,7 @@ class UploadAPI(MethodView):
         """
         try:
             self.up.handle_delete(uuid)
-            return jsonify({"success": True}),200
-        except :
-            return jsonify({"success": False}), 400
+            return {"success": True}, 200
+
+        except:
+            return {"success": False}, 400

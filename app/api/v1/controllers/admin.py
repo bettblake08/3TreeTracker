@@ -1,5 +1,5 @@
 """ This module hosts the admin controller class. """
-from flask import jsonify, render_template
+from flask import jsonify
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_raw_jwt, set_access_cookies,
                                 set_refresh_cookies, unset_jwt_cookies)
@@ -7,6 +7,8 @@ from flask_restful import reqparse
 
 from app.database.models import (AdminUserModel, LongrichUserModel, PostModel, RepoFolderModel,
                                  RevokedTokenModel, TagModel)
+
+from app.managers import Serialization
 
 
 class AdminController:
@@ -18,136 +20,219 @@ class AdminController:
 
     @staticmethod
     def identity(payload):
-        user_id = payload['identity']
+        user_id = payload["identity"]
         return AdminUserModel.find_by_id(user_id)
 
     @staticmethod
     def login_auth():
+        """ Admin User Login Authentication Endpoint
+        :args
+            username    :   Username field
+            password    :   Password field
+        """
+
         parser = reqparse.RequestParser()
-        parser.add_argument('username',
+
+        parser.add_argument("username",
                             required=True,
                             help="The username field is required")
 
-        parser.add_argument('password',
+        parser.add_argument("password",
                             required=True,
                             help="The password field is required")
 
         data = parser.parse_args()
-        current_user = AdminUserModel.find_by_username(data['username'])
+
+        response = AdminController.validate_login_data(data)
+
+        if response:
+            return response
+
+        current_user = AdminUserModel.find_by_username(data["username"])
 
         if not current_user:
-            return jsonify({"error": 1, 'message': 'User {} doesn\'t exist'.format(data['username'])})
+            return jsonify({
+                "error": 1,
+                "message": "User {} does not exist!".format(data["username"])
+            }), 404
 
-        if current_user.authenticate(data['password']):
-            access_token = create_access_token(identity=current_user.id)
-            refresh_token = create_refresh_token(identity=current_user.id)
+        if not current_user.authenticate(data["password"]):
+            return jsonify({
+                "message": "Wrong credentials"
+            }), 401
 
-            resp = jsonify({
-                'error': 0,
-                'message': 'Logged in as {}'.format(current_user.username),
-                'access_token':access_token
-            })
+        logged_in_user = {
+            "id": current_user.id,
+            "role": "admin"
+        }
 
-            set_access_cookies(resp,access_token,900)
-            set_refresh_cookies(resp,refresh_token)
+        access_token = create_access_token(
+            identity=logged_in_user,
+            fresh=True)
 
-            return resp , 200
-        else:
-            return jsonify({'error': 2, 'message': 'Wrong credentials'})
+        refresh_token = create_refresh_token(identity=logged_in_user)
+
+        resp = jsonify({
+            "message": "Logged in as {}!".format(current_user.username)
+        })
+
+        set_access_cookies(resp, access_token, 900)
+        set_refresh_cookies(resp, refresh_token)
+
+        return resp, 200
 
     @staticmethod
     def admin_log_out():
-        jti = get_raw_jwt()['jti']
+        """ Admin User Log Out Endpoint"""
+        jti = get_raw_jwt()["jti"]
+
+        revoked_token = RevokedTokenModel(token=jti)
+
         try:
-            revoked_token = RevokedTokenModel(token=jti)
             revoked_token.add()
 
-            resp = jsonify({"error":0,'error_msg': 'Access token has been revoked'})
+            resp = jsonify({
+                "message": "Access token has been revoked"
+            })
             unset_jwt_cookies(resp)
 
-            return resp
+            return resp, 200
         except:
-            return jsonify({"error": 1, 'error_msg': 'Something went wrong'}), 500
+            return jsonify({
+                "message": "Failed to log out admin!"
+            }), 500
 
     @staticmethod
     def admin_data():
-        return jsonify({'error': 0})
+        return jsonify({"error": 0})
 
     @staticmethod
-    def retrieve_repo_content_by_folder(folderId):
-        if folderId == "root":
-            content = RepoFolderModel.get_root_content(folderId)
-            return jsonify({"error": 0, "content": content})
+    def retrieve_repo_content_by_folder(folder_id):
+        """ Get Repo Folder Content Endpoint
+        :args
+            folder_id   :   Repo folder id
+        """
+        if folder_id == "root":
+            content = RepoFolderModel.get_root_content(folder_id)
+            return jsonify({
+                "message": "You have successfully retrieved the repo content!",
+                "content": content
+            }), 200
 
-        else :
-            folder = RepoFolderModel.find_by_id(folderId)
-            if bool(folder):
-                content = folder.get_content(folderId)
-                return jsonify({"error": 0, "content": content})
-            else:
-                return jsonify({"error":1, "error_msg":"Folder doesn't exist!"})
+        folder = RepoFolderModel.find_by_id(folder_id)
+
+        if not folder:
+            return {
+                "message": "Folder does not exist!"
+            }, 404
+
+        content = folder.get_content(folder_id)
+        return jsonify({
+            "message": "You have successfully retrieved the repo folder content!",
+            "content": content
+        }), 200
 
     @staticmethod
     def get_products(offset):
+        """ Get Products Endpoint
+        :args
+            offset  :   Used to paginate the list of products
+        """
         posts = PostModel.get_posts_by_offset(offset)
         tags = []
 
-        for p in posts:
-            post = p.get_post()
-            ts = post.tags
+        for post in posts:
+            post = post.get_post()
+            post_tags = post.tags
 
-            for t in ts:
-                if t.tagId not in tags:
-                    tags.append(t.tagId)
+            for post_tag in post_tags:
+                if post_tag.tagId not in tags:
+                    tags.append(post_tag.tagId)
 
-        tagsFound = TagModel.get_all_tags(tags)
+        tags_found = TagModel.get_all_tags(tags)
         content = []
 
-        for p in posts:
-            x = {}
-            post = p.get_post()
+        for post in posts:
+            post_data = {}
+            post = post.get_post()
 
-            x['log'] = p.json()
-            x['post'] = post.json()
-            x['post']['body'] = ""
+            post_data["log"] = post.json()
+            post_data["post"] = post.json()
+            post_data["post"]["body"] = ""
 
-            ts = post.tags
-            xtags = []
+            post_tags = post.tags
+            post_tags_data = []
 
-            for t in ts:
-                for y in tagsFound:
-                    if t.tagId == y.id:
-                        xtags.append(y.json())
-            
-            x['tags'] = xtags
+            for post_tag in post_tags:
+                for tag_found in tags_found:
+                    if post_tag.tagId == tag_found.id:
+                        post_tags_data.append(tag_found.json())
 
-            content.append(x)
+            post_data["tags"] = post_tags_data
 
+            content.append(post_data)
 
-        return {"error":0,"content":content}
-
+        return jsonify({
+            "message": "You have successfully retrieved the list of posts!",
+            "content": content
+        }), 200
 
     @staticmethod
-    def get_longrich_accounts(name,country,offset):
-        users = LongrichUserModel.get_users_by_offset(name,country,offset)
+    def get_longrich_accounts(name, country, offset):
+        """ Get Longrich Accounts Endpoint
+        :args
+            name    :   Longrich user account name
+            country :   Longrich user nationality 3 letter code
+            offset  :   Offset for list of users, used for pagination
+        """
+
+        try:
+            offset = int(offset)
+        except:
+            return {
+                "message": "Invalid offset!"
+            }, 400
+
+        users = LongrichUserModel.get_users_by_offset(name, country, offset)
+
         placements = []
+        placements_found = []
 
-        for u in users:            
-            if u.placementId not in placements:
-                placements.append(u.placementId)
+        for user in users:
+            if user.placementId not in placements:
+                placements.append(user.placementId)
 
-        placementsFound = LongrichUserModel.get_placements(placements)
+        if placements:
+            placements_found = LongrichUserModel.get_placements(placements)
+
         content = []
 
-        for u in users:
-            x = {}
-            x['account'] = u.json()
+        for user in users:
+            user_data = {}
+            user_data["account"] = user.json()
 
-            for y in placementsFound:
-                if u.placementId == y.id:
-                    x['account']['placement'] = y.json()
-            
-            content.append(x)
+            for placement_found in placements_found:
+                if user.placementId == placement_found.id:
+                    user_data["account"]["placement"] = placement_found.json()
 
+            content.append(user_data)
 
-        return {"error":0,"content":content}
+        return {
+            "message": "You have successfully retrieved the list of user accounts!",
+            "content": content
+        }, 200
+
+    @staticmethod
+    def validate_login_data(data):
+        """ This function handles the validation of login inputs."""
+        if data.username > 30:
+            return {
+                "message": "Username too long. Please enter a username less than 30 characters!"
+            }, 400
+
+        if not Serialization.test_password(
+                password=data.password,
+                reg_type=1):
+            return {
+                "message": "Invalid password!"
+            }, 400
