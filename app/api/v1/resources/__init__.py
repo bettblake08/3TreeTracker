@@ -6,6 +6,5 @@ from app.api.v1.resources.longrich_user import LongrichUser
 from app.api.v1.resources.post import Post
 from app.api.v1.resources.repo_file import RepoFile
 from app.api.v1.resources.repo_folder import RepoFolder
-from app.api.v1.resources.root_longrich_user import RootLongrichUser
 from app.api.v1.resources.tag import Tag, Tags
 from app.api.v1.resources.upload_api import UploadAPI

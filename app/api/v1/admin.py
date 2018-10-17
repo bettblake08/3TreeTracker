@@ -6,7 +6,7 @@ from flask_restful import Api
 
 from app.api.v1.controllers import AdminController
 from app.api.v1.resources import (AdminLongrichUser, AdminProduct, AdminUser, Post,
-                                  RepoFile, RepoFolder, RootLongrichUser, Tag,
+                                  RepoFile, RepoFolder, Tag,
                                   Tags, UploadAPI)
 
 API_V1_ADMIN = Blueprint("API_V1_ADMIN", __name__)
@@ -22,7 +22,6 @@ API.add_resource(Tags, '/tags/<string:param>')
 API.add_resource(Post, '/post/<string:param>')
 API.add_resource(AdminLongrichUser, '/longrichAccount/<string:param>')
 API.add_resource(AdminProduct, '/product/<string:param>')
-API.add_resource(RootLongrichUser, '/rootlongrichAccount')
 API.add_resource(UploadAPI, '/uploadFiletoRepo/<uuid>')
 
 
