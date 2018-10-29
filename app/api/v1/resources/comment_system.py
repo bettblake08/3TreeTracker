@@ -10,6 +10,7 @@ from app.database.models import (PostModel, ProductCommentModel, ProductModel,
 
 class Comment(Resource):
     """ This class is the comment api resource used to post, update or retrieve comments. """
+
     def get(self, param, param2, offset):
         """ Get Comments Endpoint
         :args
@@ -50,7 +51,6 @@ class Comment(Resource):
                 "userId": user_id
             }, 200
 
-
     def post(self, param, param2, offset):
         """ Post A New Comment Endpoint
         :args
@@ -88,7 +88,7 @@ class Comment(Resource):
         if not post:
             return {
                 "message": "Post not found!"
-                }, 404
+            }, 404
 
         if post_type not in [1]:
             return {
@@ -100,28 +100,29 @@ class Comment(Resource):
             data.name,
             data.email,
             data.comment
-            )
+        )
 
         product = ProductModel.find_by_id(post.postId)
         product.comments += 1
 
         if post_type == 1:
-            try:    
+            try:
                 comment.save()
                 product.save()
 
                 return {
                     "message": "You have successfully posted a new comment!"
-                    }, 201
+                }, 201
 
             except:
                 return {
                     "message": "Failed to post comment!"
-                    }, 500
+                }, 500
 
 
 class CommentReaction(Resource):
     """ This class is the comment reaction api resource."""
+
     def get(self, param, param2, param3):
         """ Set Comment Reaction Endpoint
         :args
@@ -150,7 +151,7 @@ class CommentReaction(Resource):
         if not comment:
             return {
                 "message": "Comment not found!"
-                }, 404
+            }, 404
 
         try:
             if post_type == 1:

@@ -78,16 +78,21 @@ class PlacementInput extends Component {
             method:"GET"
         }).then((response)=>{
             var data = response.data;
-            switch (data.error) {
-                case 0: {
+            switch (response.status) {
+                case 200: {
                     state.suggestions = data.content;
                     component.setState(state);
                     break;
                 }
             }
+        }).catch((response) => {
 
-        }).catch(()=>{
-            component.props.main.state.errorPopup.displayError("Error accessing server. Please try again later.");
+            switch(response.status){
+                case 404:{
+                    component.props.main.state.errorPopup.displayError("Error accessing server. Please try again later.");
+                    break;
+                }
+            }            
         })
 
     }

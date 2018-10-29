@@ -317,25 +317,11 @@ class ProductsView extends Component {
         axios({
             url: webUrl + "getProducts/" + state.offset,
             method: "GET"
-        }).catch((response) => {
-
-            switch (response.status) {
-                case 202: {
-                    break;
-                }
-                default: {
-                    setTimeout(() => {
-                        c.getProducts();
-                    }, 1000)
-                    break
-                }
-            }
-
         }).then((response) => {
             var data = response.data;
 
-            switch (data.error) {
-                case 0: {
+            switch (response.status) {
+                case 200: {
 
                     if (data.content.length == 0) {
                         errorPopup.displayError("There are no more products to retrieve. Continue creating more.");
@@ -348,6 +334,12 @@ class ProductsView extends Component {
                     break;
                 }
             }
+        }).catch(() => {
+
+            setTimeout(() => {
+                c.getProducts();
+            }, 1000)
+
         })
 
     }
@@ -682,22 +674,15 @@ class AccountLogin extends Component {
             console.log("Log in successful! Error:" + data.error);
 
             switch (data.error) {
-                case 0: {
+                case 200: {
                     window.location.href = webUrl + "admin/products";
                     break;
                 }
-                case 1:
-                case 2:
-                case 3:{
-                    state.error = data.data.error;
-                    state.buttons[0].state.status = 1;
-                    component.setState(state);
-                    break;
-                }
             }
+
         }).catch((response)=>{
             if(response.status != 200){
-                state.error = 404;
+                state.error = response.status;
                 component.setState(state);
             }
         })
@@ -706,24 +691,29 @@ class AccountLogin extends Component {
 
 
     render() {
-
         var errorText = "";
 
         switch (this.state.error) {
-            case 1: {
+            case 404: {
                 errorText = "User doesn't exist. Please enter a valid username";
                 break;
             }
-            case 2:
-            case 3:{
+            case 401: {
                 errorText = "Username or password is incorrect. Please try again.";
                 break;
             }
-            case 404: {
-                errorText = "Access to server failed. Please try again. ";
+            case 403:{
+                errorText = "User has not been verified!";
+                break;
+            }
+            case 400:
+            case 500: {
+                errorText = "Access to server failed. Please try again.";
                 break;
             }
         }
+
+        let loginError = "loginForm__errorComment f_comment_1 errorComment";
 
         return (
             <div className="loginForm view--scrollable SB">
@@ -778,9 +768,7 @@ class AccountLogin extends Component {
                                 }} />
                         </div>
 
-                        <div className="loginForm__errorComment" className={this.state.error != 0 ? "errorComment--active f_comment_1" : "errorComment--disabled f_comment_1"}>
-                            {errorText}
-                        </div>
+                        <div className={this.state.error != 0 ? loginError + "--active": loginError + "--disabled"}>{errorText}</div>
 
                         <div className="loginForm__btn">
                             <Button 
@@ -848,14 +836,8 @@ class AccountRegistration extends Component {
                 url: webUrl + "getForm",
                 method: "GET"
             }).then((response) => {
-                var data = response.data;
+                localStorage.setItem('longrichForm', response.data.content);
 
-                switch (data.error) {
-                    case 0: {
-                        localStorage.setItem('longrichForm',data.content);
-                        return;
-                    }
-                }
             }).catch((response) => {
                 if(response.status != 200){
                     errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
@@ -968,26 +950,23 @@ class AccountRegistration extends Component {
             method: "POST",
             data: formData
         }).then((response) => {
-            var data = response.data;
+            state.placement = response.data.content.placement;
+            c.setState(state);
+            c.setView(2);
 
-            switch (data.error) {
-                case 0: {
-                    state.placement = data.content.placement;
-                    c.setState(state);
-                    c.setView(2);
-                    break;
-                }
-                case 1: {
+        }).catch((response) => {
+
+            switch(response.status){
+                case 400:{
                     errorPopup.displayError("Failed to register you into the system. Please try again");
                     break;
                 }
-            }
-        }).catch((response) => {
-            if(response.status != 200){
-                errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
+                default:{
+                    errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
+                    break;
+                }
             }
         })
-
     }
 
 

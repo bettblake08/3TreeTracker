@@ -208,6 +208,7 @@ class Repo extends Component {
                 }
                 else {
                     state.ajax.retrieveRepoContent.error = "Access to server failed. Try again Later! ";
+                    state.ajax.retrieveRepoContent.attempts = 0;
                     this.setState(state);
                 }
                 break;
@@ -231,8 +232,8 @@ class Repo extends Component {
         }).then((response)=>{
             var data = response.data;
 
-            switch (data.error) {
-                case 0: {
+            switch (response.status) {
+                case 200: {
                     // repoContent(data.content);
                     state.folders = data.content.folders;
                     state.files = data.content.files;
@@ -275,8 +276,17 @@ class Repo extends Component {
 
             state.ajax.retrieveRepoContent.attempts = 0;
             repo.setState(state);
-        }).catch(()=>{
-            repo.reloadAjaxRequest(1);
+
+        }).catch((response) => {
+
+            switch(response.status){
+                case 404:
+                default:{
+                    repo.reloadAjaxRequest(1);
+                    break;
+                }
+            }
+
         })
 
     }

@@ -13,7 +13,7 @@ class Tag(Resource):
         if TagModel.exists(param):
             return {
                 "message": "Tag already exists!"
-            }
+            }, 403
 
         tag = TagModel(param)
 

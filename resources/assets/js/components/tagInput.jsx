@@ -56,23 +56,25 @@ class TagInput extends Component {
         }).then((response)=>{
             var data = response.data;
             
-            switch (data.error) {
-                case 0: {
+            switch (response.status) {
+                case 200: {
                     component.selectTag(data.content);
                     component.toggleInput();
                     break;
                 }
-                case 1:{
+            }
+
+        }).catch((response) => {
+            switch(response.status){
+                case 403:{
                     errorPopup.displayError("Tag already exists. Please select it in the Tag Sugeestions.");
                     break;
                 }
-                case 2:{
+                default:{
                     errorPopup.displayError("Error accessing server. Please try again later.");
                     break;
                 }
             }
-        }).catch(()=>{
-            errorPopup.displayError("Error accessing server. Please try again later.");
         })
 
     }

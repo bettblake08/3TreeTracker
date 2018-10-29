@@ -11,8 +11,8 @@ class RepoFolderModel(db.Model):
 
     files = db.relationship('RepoFileModel', lazy="dynamic")
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name if name else ""
 
     def json(self):
         return {"id": self.id, "name": self.name}

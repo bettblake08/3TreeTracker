@@ -122,22 +122,20 @@ class CommentingSystem extends Component {
             url:url,
             method:"GET"
         }).then((response)=>{
-            var data = response.data;
-            switch (data.error) {
-                case 0:{
-                        if (data.content != []) {
-                            state.comments.data = data.content.concat(state.comments.data);
-                            state.userId = data.userId;
-                            component.setState(state);
-                        }
 
-                        break;
+            switch(response.status){
+                case 200:{
+                    if (data.content != []) {
+                        state.comments.data = data.content.concat(state.comments.data);
+                        state.userId = data.userId;
+                        component.setState(state);
                     }
+                    break;
+                }
             }
-        }).catch((response)=>{
-            if(response.status == 0){
-                component.reloadAjaxRequest(3);
-            }
+            
+        }).catch(() =>{
+            component.reloadAjaxRequest(1);
         })
 
     }
@@ -216,7 +214,6 @@ class CommentInput extends Component {
     }
 
     postComment(){
-
         var component = this;
         var state = this.state;
         var textInputs = state.textInputs;
@@ -254,24 +251,29 @@ class CommentInput extends Component {
             data:formData
         }).then((response)=>{
 
-            switch (response.data.error) {
-                case 0: {
+            switch (response.status) {
+                case 201: {
                     state.buttons[0].setStatus(2);
                     component.props.main.getComments();
                     break;
                 }
-                case 1: {
-                    errorPopup.displayError("Failed to send comment. Try again Later! ")
+            }
+
+        }).catch((response)=>{
+            state.buttons[0].setStatus(1);
+
+            switch(response.status){
+                case 400:
+                case 500:{
+                    errorPopup.displayError("Access to server failed. Try again Later! ");
+                    break;
+                }
+                case 404:{
+                    errorPopup.displayError("Post not found. Try again Later! ");
                     break;
                 }
             }
-        }).catch((response)=>{
-            console.log(response);
 
-            if(response.status != 200){
-                state.buttons[0].setStatus(1);
-                errorPopup.displayError("Access to server failed. Try again Later! ");
-            }
         });
 
     }
@@ -406,14 +408,10 @@ class Comment extends Component {
         axios({
             url:url,
             method:"GET"
-        }).catch((response) => {
-            if (response.status != 200) {
-                component.props.main.state.errorPopup.displayError("Access to server failed. Try again Later! ");
-            }
         }).then((response)=>{
             
-            switch(response.data.error){
-                case 0: {
+            switch(response.status){
+                case 200: {
                     var prevReaction = state.reaction;
                     state.reaction = reaction;
                     console.log("Reaction change : " + prevReaction + " " + reaction);
@@ -456,6 +454,14 @@ class Comment extends Component {
 
                     component.setState(state);
                     component.checkIfLiked();
+                    break;
+                }
+            }
+
+        }).catch((response) => {
+            switch(response.status){
+                case 404:{
+                    component.props.main.state.errorPopup.displayError("Comment not found! Try again later!");
                     break;
                 }
             }

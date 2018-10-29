@@ -103,25 +103,23 @@ class ViewProduct extends Component {
         axios({
             url: webUrl + "getProduct/" + state.product.id,
             method:"GET"
-        }).then((response)=>{
-            var data = response.data;
+        }).then((response) => {
+            
+            if(response.status == 200){
+                var data = response.data;
+                state.product.data = data.content;
+                state.likes = data.content.likes == undefined ? 0 : data.content.likes.length;
+                component.setState(state);
 
-            switch (data.error) {
-                case 0:{
-                        state.product.data = data.content;
-                        state.likes = data.content.likes == undefined ? 0 : data.content.likes.length;
-                        component.setState(state);
+                if (state.commentingSystem.state != undefined) {
+                    state.commentingSystem.getComments();
+                }
 
-                        if (state.commentingSystem.state != undefined) {
-                            state.commentingSystem.getComments();
-                        }
-
-                        setTimeout(() => {
-                            component.setCoverPhoto();
-                        }, 1000);
-                        break;
-                    }
+                setTimeout(() => {
+                    component.setCoverPhoto();
+                }, 1000);
             }
+
         }).catch((response)=>{
             if(response.status != 200){
                 component.reloadAjaxRequest(3);
@@ -140,67 +138,68 @@ class ViewProduct extends Component {
             url:url,
             method:"GET"
         }).then((response)=>{
-            var data = response.data;
+            
+            if (response.status == 200){
+                var ind = state.product.stats.findIndex((item) => {
+                    return item.user == state.userId;
+                })
 
-            switch (data.error) {
-                case 0: {
-                    var ind = state.product.stats.findIndex((item) => {
-                        return item.user == state.userId;
-                    })
+                if (ind < 0) {
+                    state.product.stats[ind].reaction = state.reaction == reaction ? 0 : reaction;
+                }
 
-                    if (ind < 0){
-                        state.product.stats[ind].reaction = state.reaction == reaction ? 0 : reaction;
+                switch (state.reaction) {
+                    case 0: {
+                        switch (reaction) {
+                            case 1: {
+                                state.stats.likes++;
+                                break;
+                            }
+                            case 2: {
+                                state.stats.dislikes++;
+                                break;
+                            }
+                        }
+                        break;
                     }
-
-                    switch (state.reaction) {
-                        case 0: {
-                            switch (reaction) {
-                                case 1: {
-                                    state.stats.likes++;
-                                    break;
-                                }
-                                case 2: {
-                                    state.stats.dislikes++;
-                                    break;
-                                }
+                    case 1: {
+                        switch (reaction) {
+                            case 2: {
+                                state.stats.likes--;
+                                state.stats.dislikes++;
+                                break;
                             }
-                            break;
                         }
-                        case 1: {
-                            switch (reaction) {
-                                case 2: {
-                                    state.stats.likes--;
-                                    state.stats.dislikes++;
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                        case 2: {
-                            switch (reaction) {
-                                case 1: {
-                                    state.stats.dislikes--;
-                                    state.stats.likes++;
-                                    break;
-                                }
-                            }
-                            break;
-                        }
+                        break;
                     }
+                    case 2: {
+                        switch (reaction) {
+                            case 1: {
+                                state.stats.dislikes--;
+                                state.stats.likes++;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
 
-                    component.setState(state);
-                    component.checkReaction();
+                component.setState(state);
+                component.checkReaction();
+            }
+
+        }).catch((response) => {
+            switch(response.status){
+                case 404:{
+                    component.state.errorPopup.displayError('Product not found. Please try again later!');
                     break;
                 }
                 default:{
-                    component.state.errorPopup.displayError('We received an error message. Please try again later!');
+                    component.state.errorPopup.displayError('Error accessing server. Please try again later!');
+                    break;
                 }
             }
 
-        }).catch((response)=>{
-            if(response.status != 200){
-                component.state.errorPopup.displayError('Error accessing server. Please try again later!');
-            }
         })
     }
 

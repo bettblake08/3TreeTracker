@@ -1,4 +1,4 @@
-from app.api.v1.resources.admin_logrich_user import AdminLongrichUser
+from app.api.v1.resources.admin_longrich_user import AdminLongrichUser
 from app.api.v1.resources.admin_product import AdminProduct
 from app.api.v1.resources.admin_user import AdminUser
 from app.api.v1.resources.comment_system import Comment, CommentReaction
