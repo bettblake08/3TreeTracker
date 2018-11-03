@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {WEB_URL, DEFAULT_PRODUCT_COVER_PIC} from '../../../abstract/variables';
+import {WEB_URL, API_URL, DEFAULT_PRODUCT_COVER_PIC} from '../../../abstract/variables';
 import CommentingSystem from '../../commentingSystem';
 import ErrorPopup from "../../UI/errorPopup";
 import moment from "moment";
@@ -101,7 +101,7 @@ class ViewProduct extends Component {
         }
 
         axios({
-            url: WEB_URL + "getProduct/" + state.product.id,
+            url: API_URL + "getProduct/" + state.product.id,
             method:"GET"
         }).then((response) => {
             
@@ -131,7 +131,7 @@ class ViewProduct extends Component {
     reactToProduct(reaction = 1) {
         var component = this;
         var state = component.state;
-        var url = WEB_URL + "productReaction/" + this.state.product.data.post.id + "/" ;
+        var url = API_URL + "productReaction/" + this.state.product.data.post.id + "/" ;
         url+= state.reaction == reaction ? 0 : reaction;
 
         axios({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {WEB_URL} from '../abstract/variables';
+import {API_URL} from '../abstract/variables';
 import axios from 'axios';
 
 class TagInput extends Component {
@@ -47,7 +47,7 @@ class TagInput extends Component {
         if(this.state.name == ""){  return; }
 
         var component = this;
-        var url = WEB_URL + "admin/tag/" + this.state.name;
+        var url = API_URL + "admin/tag/" + this.state.name;
         var errorPopup = component.props.main.state.errorPopup;
 
         axios({
@@ -106,7 +106,7 @@ class TagInput extends Component {
         if(this.state.name == ""){  return; }
 
         var component = this;
-        var url = WEB_URL + "admin/tags/" + this.state.name;
+        var url = API_URL + "admin/tags/" + this.state.name;
         var state = component.state;
 
         axios({

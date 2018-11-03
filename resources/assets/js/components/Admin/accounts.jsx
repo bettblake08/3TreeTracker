@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { getCountries, getCountry } from "../../abstract/country";
-import { WEB_URL } from '../../abstract/variables';
+import { API_URL } from '../../abstract/variables';
 import PlacementInput from '../placementInput';
 import Button from "../UI/button";
 import ErrorPopup from '../UI/errorPopup';
@@ -66,7 +66,7 @@ class AccountsView extends Component {
         }
 
         axios({
-            url: WEB_URL + "admin/getAccounts/" + state.filterSearch.name + "/" + state.filterSearch.country + "/" + state.offset,
+            url: API_URL + "admin/getAccounts/" + state.filterSearch.name + "/" + state.filterSearch.country + "/" + state.offset,
             method:"GET"
         }).then((response) => {
         
@@ -301,7 +301,7 @@ class EditAccountPopup extends Component {
         var state = c.state;
 
         axios({
-            url: WEB_URL + "admin/longrichAccount/" + state.offset,
+            url: API_URL + "admin/longrichAccount/" + state.offset,
             method: "PUT",
             data:{
                 placementId:state.placements[0].id

@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import moment from 'moment';
+import React, { Component } from "react";
+import axios from "axios";
+import moment from "moment";
 import Button from "../UI/button";
-import ErrorPopup from '../UI/errorPopup';
-import humanize from '@nlib/human-readable';
-import Repo from '../repo';
-import { WEB_URL, DEFAULT_PRODUCT_COVER_PIC } from '../../abstract/variables';
-import Popup from '../UI/popup';
-import TagInput from '../tagInput';
+import ErrorPopup from "../UI/errorPopup";
+import humanize from "@nlib/human-readable";
+import Repo from "../repo";
+import { WEB_URL, DEFAULT_PRODUCT_COVER_PIC, API_URL } from "../../abstract/variables";
+import Popup from "../UI/popup";
+import TagInput from "../tagInput";
 import BalloonEditor from "@ckeditor/ckeditor5-build-balloon";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import TextInput from '../UI/textInput';
-import MultiLineText from '../UI/MultiLineTextInput';
-import ButtonWithIcon from '../UI/buttonWithIcon';
+import TextInput from "../UI/textInput";
+import MultiLineText from "../UI/MultiLineTextInput";
+import ButtonWithIcon from "../UI/buttonWithIcon";
 
 class Products extends Component {
     constructor(props) {
@@ -36,8 +36,6 @@ class Products extends Component {
 
 
     render() {
-        var view = this.state.view;
-
         return (
 
             <div id="section_1" className="SB">
@@ -99,8 +97,22 @@ class ProductsView extends Component {
         }
 
         axios({
-            url: WEB_URL + "admin/getProducts/" + state.offset,
+            url: `${API_URL}/admin/getProducts/${state.offset}`,
             method:"GET"
+        }).then((response) => {
+            var data = response.data;
+
+            if(response.status === 200){
+                if (data.content.length == 0) {
+                    state.errorPopup.displayError("There are no more products to retrieve. Continue creating more.");
+                    return;
+                }
+
+                state.content = state.content.concat(data.content);
+                state.offset += data.content.length;
+                c.setState(state);
+            }
+
         }).catch((response) => {
             
             switch(response.status){
@@ -115,23 +127,6 @@ class ProductsView extends Component {
                 }
             }
 
-        }).then((response)=>{
-            var data = response.data;
-
-            switch(data.error){
-                case 0:{
-
-                    if(data.content.length == 0){
-                        state.errorPopup.displayError("There are no more products to retrieve. Continue creating more.");
-                        break;
-                    }
-
-                    state.content = state.content.concat(data.content) ;
-                    state.offset += data.content.length;
-                    c.setState(state);
-                    break;
-                }
-            }
         })
 
     }
@@ -207,13 +202,13 @@ class Product extends Component {
         var parent = this.props.parent.props.parent;
 
         const image = {
-            background: 'url("' + WEB_URL + "repo/" + post.post.image.name + '/thumb_150_150.jpg")',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover'
+            background: `url('${WEB_URL}repo/${post.post.image.name}/thumb_150_150.jpg')`,
+            backgroundPosition: "center",
+            backgroundSize: "cover"
         }
 
         var time = moment(post.log.created_at, "YYYY-MM-DD HH:mm:ss").utc(3).local();
-        var ctime = moment.duration(time.diff(moment()), 'milliseconds').humanize();
+        var ctime = moment.duration(time.diff(moment()), "milliseconds").humanize();
         
         return (
             <div className="pro--1__con" id={"p-" + post.log.id}>
@@ -330,7 +325,7 @@ class AddProduct extends Component {
     }
 
     product_submit() {
-        var imageFile = document.querySelector('#img_select__img').dataset.image;       //Check if image has been selected
+        var imageFile = document.querySelector("#img_select__img").dataset.image;       //Check if image has been selected
 
         if (imageFile == undefined || imageFile.length == 0) {
             this.toggleRepo();
@@ -370,24 +365,25 @@ class AddProduct extends Component {
         var errorPopup = this.state.errorPopup;
 
         axios({
-            url: WEB_URL + "admin/product/0",
+            url: `${API_URL}admin/product/0`,
             method: "POST",
             data: formData
         }).then((response) => {
             var data = response.data;
 
-            switch (data.error) {
-                case 0: {
-                    window.location.href = WEB_URL + "admin/products";
-                    break;
-                }
-                case 1: {
-                    errorPopup.displayError("Failed to save the product. Please try again");
+            if(response.status === 201){
+                window.location.href = `${WEB_URL}admin/products`;
+            }
+
+        }).catch((response) => {
+
+            switch(response.status){
+                default:{
+                    errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
                     break;
                 }
             }
-        }).catch(() => {
-            errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
+            
         })
 
     }
@@ -405,23 +401,23 @@ class AddProduct extends Component {
     render() {
         var c = this;
         var placeholder = {
-            backgroundImage: "url('" + DEFAULT_PRODUCT_COVER_PIC + "')",
-            backgroundPosition: 'center',
-            backgroundSize: 'cover'
+            backgroundImage: `url('${DEFAULT_PRODUCT_COVER_PIC}')`,
+            backgroundPosition: "center",
+            backgroundSize: "cover"
         }
 
         BalloonEditor.defaultConfig.toolbar.items = [
-            'heading',
-            '|',
-            'bold',
-            'italic',
-            'link',
-            'bulletedList',
-            'numberedList',
-            'imageUpload',
-            'blockQuote',
-            'undo',
-            'redo'
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "imageUpload",
+            "blockQuote",
+            "undo",
+            "redo"
         ];
 
         return (
@@ -626,26 +622,24 @@ class EditProduct extends Component {
     getProduct() {
         var component = this;
         var state = component.state;
-        var url = WEB_URL + "admin/product/"+ state.productId;
 
         axios({
-            url:url,
+            url: `${API_URL}admin/product/${state.productId}`,
             method:"GET"
+        }).then((response) => {
+
+            if(response.status === 200){
+                var data = response.data;
+                state.updated = true;
+                state.product = data.content;
+                component.setState(state);
+                component.setCoverImage();
+            }
+
         }).catch((response) => {
+            
             if (response.status != 200) {
                 component.reloadAjaxRequest(2);
-            }
-        }).then((response)=>{
-            var data = response.data;
-
-            switch (data.error) {
-                case 0: {
-                    state.updated = true;
-                    state.product = data.content;
-                    component.setState(state);
-                    component.setCoverImage();
-                    break;
-                }
             }
         })
 
@@ -658,7 +652,7 @@ class EditProduct extends Component {
             var preview = document.querySelectorAll(".repoImagePreview");
 
             preview.forEach((e)=>{
-                e.setAttribute('style', "background:" + "url(\"" + WEB_URL + 'repo/' + state.product.post.image.name + "." + state.product.post.image.type + "\") center ; background-size:cover;");
+                e.setAttribute("style", "background:" + "url(\"" + WEB_URL + "repo/" + state.product.post.image.name + "." + state.product.post.image.type + "\") center ; background-size:cover;");
                 e.dataset.image = JSON.stringify(state.product.post.image);
             })
             
@@ -752,7 +746,7 @@ class Edit extends Component {
     }
 
     product_submit() {
-        var imageFile = document.querySelector('.repoImagePreview').dataset.image;       //Check if image has been selected
+        var imageFile = document.querySelector(".repoImagePreview").dataset.image;       //Check if image has been selected
 
         if (imageFile == undefined || imageFile.length == 0) {
             this.toggleRepo();
@@ -792,30 +786,32 @@ class Edit extends Component {
         var errorPopup = this.state.errorPopup;
 
         axios({
-            url: WEB_URL + "admin/product/" + this.props.parent.state.product.post.id,
+            url: `${API_URL}admin/product/${this.props.parent.state.product.post.id}`,
             method: "PUT",
             data: formData
         }).then((response) => {
-            var data = response.data;
 
-            switch (data.error) {
-                case 0: {
-                    window.location.href = WEB_URL + "admin/products";
-                    break;
-                }
-                case 1: {
+            if(response.status === 200){
+                window.location.href = WEB_URL + "admin/products";
+            }
+
+        }).catch((response) => {
+
+            switch(response.status){
+                case 404:{
                     errorPopup.displayError("Product does not exist! If you have an concerns, contact developer!");
                     break;
                 }
-                case 2: {
+                case 500:{
                     errorPopup.displayError("Failed to save the product. Please try again!");
                     break;
                 }
+                default:{
+                    errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
+                    break;
+                }
             }
-        }).catch((response) => {
-            if(response.status != 200){
-                errorPopup.displayError("Failed to access server. Please try again in a few minutes.");
-            }
+
         })
 
     }

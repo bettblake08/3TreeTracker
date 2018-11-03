@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 import React, { Component } from 'react';
 import Slider from "react-slick";
 import {getCountries} from '../../abstract/country';
-import {WEB_URL} from '../../abstract/variables';
+import {WEB_URL, API_URL} from '../../abstract/variables';
 import PlacementInput from '../placementInput';
 import Button from '../UI/button';
 import DateInput from '../UI/dateInput';
@@ -315,7 +315,7 @@ class ProductsView extends Component {
         }
 
         axios({
-            url: WEB_URL + "getProducts/" + state.offset,
+            url: API_URL + "getProducts/" + state.offset,
             method: "GET"
         }).then((response) => {
             var data = response.data;
@@ -662,7 +662,7 @@ class AccountLogin extends Component {
         component.setState(state);
 
         axios({
-            url: WEB_URL + 'admin/loginAuth',
+            url: API_URL + 'admin/loginAuth',
             method:"POST",
             data: {
                 usernameType:usernameType,
@@ -833,7 +833,7 @@ class AccountRegistration extends Component {
             var errorPopup = this.props.parent.state.errorPopup;
 
             axios({
-                url: WEB_URL + "getForm",
+                url: API_URL + "getForm",
                 method: "GET"
             }).then((response) => {
                 localStorage.setItem('longrichForm', response.data.content);
@@ -946,7 +946,7 @@ class AccountRegistration extends Component {
         var c = this;
 
         axios({
-            url: WEB_URL + "longrichAccount",
+            url: API_URL + "longrichAccount",
             method: "POST",
             data: formData
         }).then((response) => {

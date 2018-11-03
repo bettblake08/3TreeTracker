@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { WEB_URL, DEFAULT_USER_PIC} from "../abstract/variables";
+import { API_URL, DEFAULT_USER_PIC} from "../abstract/variables";
 import moment from "moment";
 import Button from './UI/button';
 import ErrorPopup from './UI/errorPopup';
@@ -107,7 +107,7 @@ class CommentingSystem extends Component {
     getComments() {
         var component = this;
         var state = this.state;
-        var url = WEB_URL;
+        var url = API_URL;
 
         switch(this.props.commentingOn){
             case 1:{
@@ -233,7 +233,7 @@ class CommentInput extends Component {
             comment: textInputs[2].state.inputValue
         }
 
-        var url = WEB_URL + "comment/" + this.props.main.props.commentingOn + "/";
+        var url = API_URL + "comment/" + this.props.main.props.commentingOn + "/";
 
         switch(this.props.main.props.commentingOn){
             case 1:{
@@ -402,7 +402,7 @@ class Comment extends Component {
         //1 - Like
         //2 - Dislike
 
-        var url = WEB_URL + "commentReaction/" +  this.props.main.props.commentingOn +"/"+ this.props.comment.id + "/";
+        var url = API_URL + "commentReaction/" +  this.props.main.props.commentingOn +"/"+ this.props.comment.id + "/";
         url += state.reaction == reaction ? 0 : reaction;
 
         axios({

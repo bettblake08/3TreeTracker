@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {WEB_URL} from '../../abstract/variables';
+import {WEB_URL, MAIN_LOGO} from '../../abstract/variables';
 
 class Footer extends Component {
     constructor(props) {
@@ -48,7 +48,7 @@ class Footer extends Component {
 
                         <a href={WEB_URL}>
                             <div className="footer__logo">
-                                <img src={WEB_URL + 'assets/images/edulink.png'} />
+                                <img src={MAIN_LOGO} />
                             </div>
                         </a>
 

@@ -99,10 +99,6 @@ class MainHeader extends Component {
                 </div>
 
             </div>
-
-
-
-
         );
     }
 }

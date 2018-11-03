@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import {WEB_URL} from '../abstract/variables';
+import {API_URL} from '../abstract/variables';
 import qq from "../../../plugins/fineUploader/fine-uploader";
 import Popup from './UI/popup';
 import axios from 'axios';
@@ -83,12 +83,12 @@ class Repo extends Component {
             required_count: rCount,
             refresh: false,
             url: {
-                retrieveRepoContentByFolder: WEB_URL + "admin/retrieveRepoContentByFolder/",
-                contentdir: WEB_URL + "repo",
-                uploadFiletoRepo: WEB_URL + 'admin/uploadFiletoRepo',
-                createFolderinRepo: WEB_URL + 'admin/repoFolder/root',
-                deleteFolderFromRepo: WEB_URL + 'admin/repoFolder/',
-                deleteFileFromRepo: WEB_URL + "admin/repoFile/"
+                retrieveRepoContentByFolder: `${API_URL}admin/retrieveRepoContentByFolder/`,
+                contentdir: `${API_URL}admin/repo/`,
+                uploadFiletoRepo: `${API_URL}admin/uploadFiletoRepo/`,
+                createFolderinRepo: `${API_URL}admin/repoFolder/root`,
+                deleteFolderFromRepo: `${API_URL}admin/repoFolder/`,
+                deleteFileFromRepo: `${API_URL}admin/repoFile/`
             },
             popups: [],
             loaded: false,

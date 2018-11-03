@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import{ WEB_URL, MAIN_LOGO} from '../../abstract/variables';
+import{ WEB_URL, MAIN_LOGO, API_URL} from '../../abstract/variables';
 import setSVGIcons from "../../abstract/icons";
 import axios from 'axios';
 //import IconButton from "../UI/iconButton";
@@ -26,27 +26,14 @@ class AdminHeader extends Component {
     }
 
     componentWillMount(){
-        //this.setData();
         document.getElementById("svg_icons").innerHTML = setSVGIcons();
-    }
-
-    setData() {
-        var state = this.state;
-        var profile = JSON.parse(localStorage.getItem('adminUser'));
-
-        if (profile != null || profile != undefined) {
-            return;
-        }
-        
-        this.retrieveData();
     }
 
     retrieveData() {
         var component = this;
-        var state = component.state;
 
         axios({
-            url:WEB_URL + "admin/getData",
+            url: `${API_URL}admin/getData`,
             method:"GET"
         }).then((response)=>{
             var data = response.data;
