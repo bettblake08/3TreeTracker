@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack -p --progress --config ./webpack.config.js",
-        "dev": "webpack --progress -d --config ./webpack.config.js --mode development ",
+        "dev": "webpack --config ./webpack.config.js --mode development ",
         "watch": "webpack --progress -d --config ./webpack.config.js --mode development  --watch",
         "prod": "webpack -p --progress --config ./webpack.config.js --mode production --optimize-minimize"
     },
