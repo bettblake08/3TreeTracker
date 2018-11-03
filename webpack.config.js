@@ -4,33 +4,45 @@ const path = require("path"),
     ManifestRevisionPlugin = require("manifest-revision-webpack-plugin"),
     WebpackMd5Hash = require('webpack-md5-hash');
 
-var root = "./Resources/Assets/";
-var jsRoot = "./Resources/Assets/js/";
-var scssRoot = "./Resources/Assets/scss/";
-var pluginRoot = ".Resources/Assets/plugins/";
+var root = "./resources/assets";
+
+var jsRoot = `${root}/js`;
+var scssRoot = `${root}/scss`;
+var pluginRoot = `${root}/plugins`;
+
+var main = {
+    scss: `${scssRoot}/pages/main`,
+    js: `${jsRoot}/pages/main`
+}
+
+var admin = {
+    scss: `${scssRoot}/pages/admin`,
+    js: `${jsRoot}/pages/admin`
+}
 
 var entries = {
-    main_css: scssRoot + "main.scss",
-    main_header_js: jsRoot + "pages/main/header.jsx",
-    main_footer_js: jsRoot + "pages/main/footer.jsx",
-    main_home_js: jsRoot + "pages/main/home.jsx",
-    main_home_css: scssRoot + "pages/main/home.scss",
-    admin_css: scssRoot + "admin.scss",
-    admin_header_js: jsRoot + "pages/admin/header.jsx",
-    admin_login_css: scssRoot + "pages/admin/login.scss",
-    admin_login_js: jsRoot + "pages/admin/login.jsx",
-    admin_repo_css: scssRoot + "pages/admin/repo.scss",
-    admin_repo_js: jsRoot + "pages/admin/repo.jsx",
-    admin_products_css: scssRoot + "pages/admin/products.scss",
-    admin_products_js: jsRoot + "pages/admin/products.jsx",
-    admin_accounts_css: scssRoot + "pages/admin/accounts.scss",
-    admin_accounts_js: jsRoot + "pages/admin/accounts.jsx"
+    main_css: `${scssRoot}/main.scss`,
+    main_header_js: `${main.js}/header.jsx`,
+    main_footer_js: `${main.js}/footer.jsx`,
+    main_home_js: `${main.js}/home.jsx`,
+    main_home_css: `${main.scss}/home.scss`,
+    
+    admin_css: `${scssRoot}/admin.scss`,
+    admin_header_js: `${admin.js}/header.jsx`,
+    admin_login_css: `${admin.scss}/login.scss`,
+    admin_login_js: `${admin.js}/login.jsx`,
+    admin_repo_css: `${admin.scss}/repo.scss`,
+    admin_repo_js: `${admin.js}/repo.jsx`,
+    admin_products_css: `${admin.scss}/products.scss`,
+    admin_products_js: `${admin.js}/products.jsx`,
+    admin_accounts_css: `${admin.scss}/accounts.scss`,
+    admin_accounts_js: `${admin.js}/accounts.jsx`
 }
 
 const config = {
     entry: entries,
     output: {
-        path: path.resolve(__dirname, 'Public/assets'),
+        path: path.resolve(__dirname, 'public/assets'),
         publicPath: "http://127.0.0.1:5000/assets/",
         filename: "[name].[chunkhash].js",
         chunkFilename: "[id].[chunkhash].chunk"
