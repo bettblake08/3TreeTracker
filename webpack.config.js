@@ -10,51 +10,21 @@ var scssRoot = "./Resources/Assets/scss/";
 var pluginRoot = ".Resources/Assets/plugins/";
 
 var entries = {
-    main_css: [
-        scssRoot + "main.scss"
-    ],
-    main_header_js: [
-        jsRoot + "pages/main/header.jsx"
-    ],
-    main_footer_js: [
-        jsRoot + "pages/main/footer.jsx"
-    ],
-    main_home_js: [
-        jsRoot + "pages/main/home.jsx"
-    ],
-    main_home_css: [
-        scssRoot + "pages/main/home.scss"
-    ],
-    admin_css: [
-        scssRoot + "admin.scss"
-    ],
-    admin_header_js: [
-        jsRoot + "pages/admin/header.jsx"
-    ],
-    admin_login_css: [
-        scssRoot + "pages/admin/login.scss"
-    ],
-    admin_login_js: [
-        jsRoot + "pages/admin/login.jsx"
-    ],
-    admin_repo_css: [
-        scssRoot + "pages/admin/repo.scss"
-    ],
-    admin_repo_js: [
-        jsRoot + "pages/admin/repo.jsx"
-    ],
-    admin_products_css: [
-        scssRoot + "pages/admin/products.scss"
-    ],
-    admin_products_js: [
-        jsRoot + "pages/admin/products.jsx"
-    ],
-    admin_accounts_css: [
-        scssRoot + "pages/admin/accounts.scss"
-    ],
-    admin_accounts_js: [
-        jsRoot + "pages/admin/accounts.jsx"
-    ]
+    main_css: scssRoot + "main.scss",
+    main_header_js: jsRoot + "pages/main/header.jsx",
+    main_footer_js: jsRoot + "pages/main/footer.jsx",
+    main_home_js: jsRoot + "pages/main/home.jsx",
+    main_home_css: scssRoot + "pages/main/home.scss",
+    admin_css: scssRoot + "admin.scss",
+    admin_header_js: jsRoot + "pages/admin/header.jsx",
+    admin_login_css: scssRoot + "pages/admin/login.scss",
+    admin_login_js: jsRoot + "pages/admin/login.jsx",
+    admin_repo_css: scssRoot + "pages/admin/repo.scss",
+    admin_repo_js: jsRoot + "pages/admin/repo.jsx",
+    admin_products_css: scssRoot + "pages/admin/products.scss",
+    admin_products_js: jsRoot + "pages/admin/products.jsx",
+    admin_accounts_css: scssRoot + "pages/admin/accounts.scss",
+    admin_accounts_js: jsRoot + "pages/admin/accounts.jsx"
 }
 
 const config = {
