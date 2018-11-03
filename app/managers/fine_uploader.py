@@ -5,13 +5,14 @@ import random
 
 from app.database.models import RepoFileModel
 from app.managers.image_manager import ImageManager
+from instance.config import Config
 
 
 class FineUploader:
     """ This class handles all the file upload functions required for the repo files"""
     BASE_DIR = os.path.dirname(__file__)
 
-    MEDIA_ROOT = os.path.join(BASE_DIR, '../../Public/repo')
+    MEDIA_ROOT = os.path.join(BASE_DIR, '../../' + Config.REPO_DIR)
     UPLOAD_DIRECTORY = os.path.join(MEDIA_ROOT, 'upload')
     CHUNKS_DIRECTORY = os.path.join(MEDIA_ROOT, 'chunks')
 
@@ -129,7 +130,7 @@ class FineUploader:
     @classmethod
     def save_upload(cls, upload_file, path):
         """ Save an upload.
-        Uploads are stored in repo/uploads
+        Uploads are stored in <REPO_DIR>/uploads
         """
 
         if not os.path.exists(os.path.dirname(path)):
@@ -142,8 +143,8 @@ class FineUploader:
         """ Combine a chunked file into a whole file again. Goes through each part
         , in order, and appends that part's bytes to another destination file.
 
-        Chunks are stored in public/assets/chunks
-        Uploads are saved in public/assets/uploads
+        Chunks are stored in <REPO_DIR>/chunks
+        Uploads are saved in <REPO_DIR>/uploads
         """
 
         if not os.path.exists(os.path.dirname(dest)):

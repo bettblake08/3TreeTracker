@@ -15,6 +15,8 @@ class Config(object):
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 
+    REPO_DIR = "public/repo/"
+
 
 class ProductionConfig(Config):
     ENV = "production"
