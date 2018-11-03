@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import webUrl from '../abstract/variables';
+import {WEB_URL} from '../abstract/variables';
 import moment from 'moment';
 
 class Article extends Component {
@@ -27,14 +27,14 @@ class Article_1 extends Component {
     render() {
         var post = this.props.post;
         const image = {
-            backgroundImage: 'url("' + webUrl + "accounts/institution/" + post.log.owner_id + "/" + post.image.name + "." + post.image.type + '")'
+            backgroundImage: 'url("' + WEB_URL + "accounts/institution/" + post.log.owner_id + "/" + post.image.name + "." + post.image.type + '")'
         }
 
         return (
             <div className="art--1__con" id={"p-" + post.log.id}>
 
                 <div className="art--1__con__up" style={image}>
-                    <a href={webUrl + "article/" + post.log.owner_id + "/" + post.log.id}>
+                    <a href={WEB_URL + "article/" + post.log.owner_id + "/" + post.log.id}>
                         <div className="art--1__link">
                             <div className="art--1__title f_normal f_text-capitalize">{post.post.title}</div>
                             <svg className="icon">
@@ -115,10 +115,10 @@ class Article_2 extends Component {
                 state.name = user.username;
 
                 if (user.profilePic != undefined) {
-                    state.user.ppic = webUrl + 'accounts/student/' + user.id + "/" + student.profilePic.name + "/dp_50_50.png";
+                    state.user.ppic = WEB_URL + 'accounts/student/' + user.id + "/" + student.profilePic.name + "/dp_50_50.png";
                 }
                 else {
-                    state.user.ppic = webUrl + 'assets/images/student.jpg';
+                    state.user.ppic = WEB_URL + 'assets/images/student.jpg';
                 }
                 break;
             }
@@ -127,13 +127,13 @@ class Article_2 extends Component {
             }
             case 3: {
                 state.user.name = user.institution.name;
-                state.user.link = webUrl + user.institution.code;
+                state.user.link = WEB_URL + user.institution.code;
 
                 if (user.insLogo != undefined) {
-                    state.user.ppic = webUrl + 'accounts/institution/' + user.id + "/" + student.insLogo.name + "/dp_50_50.png";
+                    state.user.ppic = WEB_URL + 'accounts/institution/' + user.id + "/" + student.insLogo.name + "/dp_50_50.png";
                 }
                 else {
-                    state.user.ppic = webUrl + 'assets/images/student.jpg';
+                    state.user.ppic = WEB_URL + 'assets/images/student.jpg';
                 }
                 break;
             }
@@ -146,7 +146,7 @@ class Article_2 extends Component {
         var post = this.props.post;
         var user = this.state.user;
         const image = {
-            backgroundImage: 'url("' + webUrl + "accounts/institution/" + post.log.owner_id + "/" + post.image.name + "." + post.image.type + '")'
+            backgroundImage: 'url("' + WEB_URL + "accounts/institution/" + post.log.owner_id + "/" + post.image.name + "." + post.image.type + '")'
         }
 
         var ctime = moment.utc(post.log.created_at.date, 'YYYY-MM-DD HH:mm:ss.SSSS');
@@ -162,7 +162,7 @@ class Article_2 extends Component {
                 </div>
                 
                 <div className="art--2__con__up" style={image}>
-                    <a href={webUrl + "article/" + post.log.owner_id + "/" + post.log.id}>
+                    <a href={WEB_URL + "article/" + post.log.owner_id + "/" + post.log.id}>
                         <div className="art--2__link">
                             <div className="art--2__title f_normal f_text-capitalize">{post.post.title.substr(0,59)}</div>
                             <svg className="icon">

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import{ webUrl , setSVGIcons} from '../../abstract/variables';
+import{ WEB_URL, MAIN_LOGO} from '../../abstract/variables';
+import setSVGIcons from "../../abstract/icons";
 import axios from 'axios';
-import IconButton from "../UI/iconButton";
+//import IconButton from "../UI/iconButton";
 
 class AdminHeader extends Component {
     constructor(props){
@@ -45,7 +46,7 @@ class AdminHeader extends Component {
         var state = component.state;
 
         axios({
-            url:webUrl + "admin/getData",
+            url:WEB_URL + "admin/getData",
             method:"GET"
         }).then((response)=>{
             var data = response.data;
@@ -99,9 +100,9 @@ class AdminHeader extends Component {
             <div className="header--active " style={{ margin: 0, padding: 0 }}>
                     <div className="header">
                         <div className="header__left">
-                            <a href={webUrl + 'admin/home'}>
+                            <a href={WEB_URL + 'admin/home'}>
                                 <div className="header__logo">
-                                    <img src={webUrl + 'assets/images/edulink.png'} />
+                                    <img src={MAIN_LOGO} />
                                 </div>
                             </a>
                         </div>
@@ -111,31 +112,13 @@ class AdminHeader extends Component {
 
                         <div className="header__right">
                             <div className="header__right__logOut">
-                                <a href={webUrl + 'admin/logout'}>
+                                <a href={WEB_URL + 'admin/logout'}>
                                     <div className="btn_1--danger f_button_2 f_text-capitalize">Logout</div>
                                 </a>
                             </div>
-                         {/* 
-                            <div className="header__right__nf">
-                                <IconButton 
-                                    parent={this}
-                                    status={0}
-                                    config={{
-                                        action:()=>{
-                                            this.togglePopupMenu(1)
-                                        },
-                                        icon:"note",
-                                        class:"iconBtn"
-                                    }}
-                                />
-                            </div> */}
-
                         </div>
 
-
-
                     </div>
-
             </div>
         );
     }

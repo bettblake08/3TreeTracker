@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { webUrl, defaultUserPic} from "../abstract/variables";
+import { WEB_URL, DEFAULT_USER_PIC} from "../abstract/variables";
 import moment from "moment";
 import Button from './UI/button';
 import ErrorPopup from './UI/errorPopup';
@@ -107,7 +107,7 @@ class CommentingSystem extends Component {
     getComments() {
         var component = this;
         var state = this.state;
-        var url = webUrl;
+        var url = WEB_URL;
 
         switch(this.props.commentingOn){
             case 1:{
@@ -233,7 +233,7 @@ class CommentInput extends Component {
             comment: textInputs[2].state.inputValue
         }
 
-        var url = webUrl + "comment/" + this.props.main.props.commentingOn + "/";
+        var url = WEB_URL + "comment/" + this.props.main.props.commentingOn + "/";
 
         switch(this.props.main.props.commentingOn){
             case 1:{
@@ -286,7 +286,7 @@ class CommentInput extends Component {
                 <div className="commentInput__form">
                     <div className="commentInput__user">
                         <div className="commentInput__user__pic">
-                            <img src={defaultUserPic[1]} />
+                            <img src={DEFAULT_USER_PIC[1]} />
                         </div>
                     </div>
 
@@ -402,7 +402,7 @@ class Comment extends Component {
         //1 - Like
         //2 - Dislike
 
-        var url = webUrl + "commentReaction/" +  this.props.main.props.commentingOn +"/"+ this.props.comment.id + "/";
+        var url = WEB_URL + "commentReaction/" +  this.props.main.props.commentingOn +"/"+ this.props.comment.id + "/";
         url += state.reaction == reaction ? 0 : reaction;
 
         axios({
@@ -496,7 +496,7 @@ class Comment extends Component {
             <div className="comment" >
                 <div className="comment__user">
                     <div className="comment__user__pic">
-                        <img src={defaultUserPic[1]} />
+                        <img src={DEFAULT_USER_PIC[1]} />
                     </div>
                 </div>
 

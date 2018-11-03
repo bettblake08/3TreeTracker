@@ -5,7 +5,7 @@ import Button from "../UI/button";
 import ErrorPopup from '../UI/errorPopup';
 import humanize from '@nlib/human-readable';
 import Repo from '../repo';
-import { webUrl, defaultProductCoverPic } from '../../abstract/variables';
+import { WEB_URL, DEFAULT_PRODUCT_COVER_PIC } from '../../abstract/variables';
 import Popup from '../UI/popup';
 import TagInput from '../tagInput';
 import BalloonEditor from "@ckeditor/ckeditor5-build-balloon";
@@ -99,7 +99,7 @@ class ProductsView extends Component {
         }
 
         axios({
-            url: webUrl + "admin/getProducts/" + state.offset,
+            url: WEB_URL + "admin/getProducts/" + state.offset,
             method:"GET"
         }).catch((response) => {
             
@@ -207,7 +207,7 @@ class Product extends Component {
         var parent = this.props.parent.props.parent;
 
         const image = {
-            background: 'url("' + webUrl + "repo/" + post.post.image.name + '/thumb_150_150.jpg")',
+            background: 'url("' + WEB_URL + "repo/" + post.post.image.name + '/thumb_150_150.jpg")',
             backgroundPosition: 'center',
             backgroundSize: 'cover'
         }
@@ -370,7 +370,7 @@ class AddProduct extends Component {
         var errorPopup = this.state.errorPopup;
 
         axios({
-            url: webUrl + "admin/product/0",
+            url: WEB_URL + "admin/product/0",
             method: "POST",
             data: formData
         }).then((response) => {
@@ -378,7 +378,7 @@ class AddProduct extends Component {
 
             switch (data.error) {
                 case 0: {
-                    window.location.href = webUrl + "admin/products";
+                    window.location.href = WEB_URL + "admin/products";
                     break;
                 }
                 case 1: {
@@ -405,7 +405,7 @@ class AddProduct extends Component {
     render() {
         var c = this;
         var placeholder = {
-            backgroundImage: "url('" + defaultProductCoverPic + "')",
+            backgroundImage: "url('" + DEFAULT_PRODUCT_COVER_PIC + "')",
             backgroundPosition: 'center',
             backgroundSize: 'cover'
         }
@@ -626,7 +626,7 @@ class EditProduct extends Component {
     getProduct() {
         var component = this;
         var state = component.state;
-        var url = webUrl + "admin/product/"+ state.productId;
+        var url = WEB_URL + "admin/product/"+ state.productId;
 
         axios({
             url:url,
@@ -658,7 +658,7 @@ class EditProduct extends Component {
             var preview = document.querySelectorAll(".repoImagePreview");
 
             preview.forEach((e)=>{
-                e.setAttribute('style', "background:" + "url(\"" + webUrl + 'repo/' + state.product.post.image.name + "." + state.product.post.image.type + "\") center ; background-size:cover;");
+                e.setAttribute('style', "background:" + "url(\"" + WEB_URL + 'repo/' + state.product.post.image.name + "." + state.product.post.image.type + "\") center ; background-size:cover;");
                 e.dataset.image = JSON.stringify(state.product.post.image);
             })
             
@@ -792,7 +792,7 @@ class Edit extends Component {
         var errorPopup = this.state.errorPopup;
 
         axios({
-            url: webUrl + "admin/product/" + this.props.parent.state.product.post.id,
+            url: WEB_URL + "admin/product/" + this.props.parent.state.product.post.id,
             method: "PUT",
             data: formData
         }).then((response) => {
@@ -800,7 +800,7 @@ class Edit extends Component {
 
             switch (data.error) {
                 case 0: {
-                    window.location.href = webUrl + "admin/products";
+                    window.location.href = WEB_URL + "admin/products";
                     break;
                 }
                 case 1: {

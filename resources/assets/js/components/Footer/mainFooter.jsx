@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import webUrl from '../../abstract/variables';
+import {WEB_URL} from '../../abstract/variables';
 
 class Footer extends Component {
     constructor(props) {
@@ -46,9 +46,9 @@ class Footer extends Component {
                 <div className={this.state.mode == 2 ? "footer__full--active" : "footer__full--disabled"}>
                     <div className="footer__full">
 
-                        <a href={webUrl}>
+                        <a href={WEB_URL}>
                             <div className="footer__logo">
-                                <img src={webUrl + 'assets/images/edulink.png'} />
+                                <img src={WEB_URL + 'assets/images/edulink.png'} />
                             </div>
                         </a>
 

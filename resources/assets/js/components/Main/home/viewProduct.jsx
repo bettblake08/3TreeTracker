@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {webUrl, defaultProductCoverPic} from '../../../abstract/variables';
+import {WEB_URL, DEFAULT_PRODUCT_COVER_PIC} from '../../../abstract/variables';
 import CommentingSystem from '../../commentingSystem';
 import ErrorPopup from "../../UI/errorPopup";
 import moment from "moment";
@@ -88,7 +88,7 @@ class ViewProduct extends Component {
     setCoverPhoto(){
         var state = this.state;
         var product = state.product.data.post;
-        state.coverPhotoUrl = product.image != undefined ? webUrl + 'repo/' + product.image.name + "." + product.image.type : defaultProductCoverPic;
+        state.coverPhotoUrl = product.image != undefined ? WEB_URL + 'repo/' + product.image.name + "." + product.image.type : DEFAULT_PRODUCT_COVER_PIC;
         this.setState(state);
     }
 
@@ -101,7 +101,7 @@ class ViewProduct extends Component {
         }
 
         axios({
-            url: webUrl + "getProduct/" + state.product.id,
+            url: WEB_URL + "getProduct/" + state.product.id,
             method:"GET"
         }).then((response) => {
             
@@ -131,7 +131,7 @@ class ViewProduct extends Component {
     reactToProduct(reaction = 1) {
         var component = this;
         var state = component.state;
-        var url = webUrl + "productReaction/" + this.state.product.data.post.id + "/" ;
+        var url = WEB_URL + "productReaction/" + this.state.product.data.post.id + "/" ;
         url+= state.reaction == reaction ? 0 : reaction;
 
         axios({

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { webUrl, setSVGIcons} from '../../abstract/variables';
+import { WEB_URL, MAIN_LOGO } from '../../abstract/variables';
+import setSVGIcons from "../../abstract/icons";
 import MenuType1 from '../UI/menuType1';
 
 class MainHeader extends Component {
@@ -56,11 +57,11 @@ class MainHeader extends Component {
         var menuLinks = [
             [
                 {
-                    url: webUrl + 'login',
+                    url: WEB_URL + 'login',
                     text: 't-10'
                 },
                 {
-                    url: webUrl + 'sign_up',
+                    url: WEB_URL + 'sign_up',
                     text: 't-55'
                 }
             ]
@@ -70,9 +71,9 @@ class MainHeader extends Component {
             <div className={headerClass}>
                 <div className="row">
                     <div className="header__left">
-                        <a href={webUrl}>
+                        <a href={WEB_URL}>
                             <div className="header__logo">
-                                <img src={webUrl + 'assets/images/logo2.png'} />
+                                <img src={MAIN_LOGO} />
                             </div>
                         </a>
                         <div className="header__title f_banner_1">Longrich</div>

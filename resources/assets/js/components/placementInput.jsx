@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import webUrl from '../abstract/variables';
+import {WEB_URL} from '../abstract/variables';
 import axios from 'axios';
 
 class PlacementInput extends Component {
@@ -70,7 +70,7 @@ class PlacementInput extends Component {
         if(this.state.name == ""){  return; }
 
         var component = this;
-        var url = webUrl + "getPlacements/" + this.state.name.toLowerCase();
+        var url = WEB_URL + "getPlacements/" + this.state.name.toLowerCase();
         var state = component.state;
 
         axios({

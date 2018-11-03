@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 import React, { Component } from 'react';
 import Slider from "react-slick";
 import {getCountries} from '../../abstract/country';
-import webUrl from '../../abstract/variables';
+import {WEB_URL} from '../../abstract/variables';
 import PlacementInput from '../placementInput';
 import Button from '../UI/button';
 import DateInput from '../UI/dateInput';
@@ -109,13 +109,13 @@ class LandingView extends Component {
                             </div>
                             <div className="lview__buttons">
                                 <div className="lview__button">
-                                    <a href={webUrl + 'login'}>
+                                    <a href={WEB_URL + 'login'}>
                                         <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
                                     </a>
                                 </div>
 
                                 <div className="lview__button">
-                                    <a href={webUrl + 'sign_up'}>
+                                    <a href={WEB_URL + 'sign_up'}>
                                         <div className="btn_1--edulink f_button_2 t-55 f_text-capitalize"></div>
                                     </a>
                                 </div>
@@ -149,13 +149,13 @@ class LandingView extends Component {
 
                         <div className="lview__buttons">
                             <div className="lview__button">
-                                <a href={webUrl + 'login'}>
+                                <a href={WEB_URL + 'login'}>
                                     <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
                                 </a>
                             </div>
 
                             <div className="lview__button">
-                                <a href={webUrl + 'sign_up'}>
+                                <a href={WEB_URL + 'sign_up'}>
                                     <div className="btn_1--edulink f_button_2 t-55 f_text-capitalize"></div>
                                 </a>
                             </div>
@@ -183,7 +183,7 @@ class LandingView extends Component {
 
                         <div className="lview__buttons">
                             <div className="lview__button">
-                                <a href={webUrl + 'login'}>
+                                <a href={WEB_URL + 'login'}>
                                     <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
                                 </a>
                             </div>
@@ -212,13 +212,13 @@ class LandingView extends Component {
 
                         <div className="lview__buttons">
                             <div className="lview__button">
-                                <a href={webUrl + 'insAdmin/login'}>
+                                <a href={WEB_URL + 'insAdmin/login'}>
                                     <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
                                 </a>
                             </div>
 
                             <div className="lview__button">
-                                <a href={webUrl + 'insAdmin/registration'}>
+                                <a href={WEB_URL + 'insAdmin/registration'}>
                                     <div className="btn_1--edulink f_button_2 t-55 f_text-capitalize"></div>
                                 </a>
                             </div>
@@ -315,7 +315,7 @@ class ProductsView extends Component {
         }
 
         axios({
-            url: webUrl + "getProducts/" + state.offset,
+            url: WEB_URL + "getProducts/" + state.offset,
             method: "GET"
         }).then((response) => {
             var data = response.data;
@@ -391,7 +391,7 @@ class Product extends Component {
         var parent = this.props.parent.props.parent;
 
         const image = {
-            background: 'url("' + webUrl + "repo/" + post.post.image.name + '/thumb_150_150.jpg")',
+            background: 'url("' + WEB_URL + "repo/" + post.post.image.name + '/thumb_150_150.jpg")',
             backgroundPosition: 'center',
             backgroundSize: 'cover'
         }
@@ -517,7 +517,7 @@ class InfoView extends Component {
                         </div>
                         <div className="infoView__3__buttons">
                             <div className="lview__button">
-                                <a href={webUrl + 'insAdmin/registration'}>
+                                <a href={WEB_URL + 'insAdmin/registration'}>
                                     <div className="btn_1--white f_button_2 f_text-capitalize">Get Started</div>
                                 </a>
                             </div>
@@ -662,7 +662,7 @@ class AccountLogin extends Component {
         component.setState(state);
 
         axios({
-            url: webUrl + 'admin/loginAuth',
+            url: WEB_URL + 'admin/loginAuth',
             method:"POST",
             data: {
                 usernameType:usernameType,
@@ -675,7 +675,7 @@ class AccountLogin extends Component {
 
             switch (data.error) {
                 case 200: {
-                    window.location.href = webUrl + "admin/products";
+                    window.location.href = WEB_URL + "admin/products";
                     break;
                 }
             }
@@ -833,7 +833,7 @@ class AccountRegistration extends Component {
             var errorPopup = this.props.parent.state.errorPopup;
 
             axios({
-                url: webUrl + "getForm",
+                url: WEB_URL + "getForm",
                 method: "GET"
             }).then((response) => {
                 localStorage.setItem('longrichForm', response.data.content);
@@ -946,7 +946,7 @@ class AccountRegistration extends Component {
         var c = this;
 
         axios({
-            url: webUrl + "longrichAccount",
+            url: WEB_URL + "longrichAccount",
             method: "POST",
             data: formData
         }).then((response) => {

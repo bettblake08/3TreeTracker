@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import webUrl from '../../abstract/variables';
+import {WEB_URL} from '../../abstract/variables';
 import axios from 'axios';
 import Button from '../UI/button';
 
@@ -48,7 +48,7 @@ class Login extends Component {
 
     setAuthorization (token){
         var api = axios.create({
-            baseUrl:webUrl
+            baseUrl:WEB_URL
         });
 
         api.interceptors.request.use((config) => {
@@ -70,7 +70,7 @@ class Login extends Component {
         component.setState(state);
 
         axios({
-            url: webUrl + 'admin/loginAuth',
+            url: WEB_URL + 'admin/loginAuth',
             method:"POST",
             data: formData
         }).then((response)=>{
@@ -83,7 +83,7 @@ class Login extends Component {
                 //localStorage.setItem('access_token', data.access_token);
                 //localStorage.setItem('refresh_token', data.refresh_token);
                 
-                window.location.href = webUrl + "admin/products";
+                window.location.href = WEB_URL + "admin/products";
             }
             
         }).catch((response) => {
@@ -122,7 +122,7 @@ class Login extends Component {
         }
 
         const back_img = {
-            background: "url('"+ webUrl + "assets/images/back--11.jpg')",
+            background: "url('"+ WEB_URL + "assets/images/back--11.jpg')",
             backgroundPosition:'center',
             backgroundSize: 'cover'
         }
@@ -135,7 +135,7 @@ class Login extends Component {
 
                         <div id="icon_sec">
                             <div id="icon">
-                                <img src={webUrl + 'assets/images/logo.png'} />
+                                <img src={WEB_URL + 'assets/images/logo.png'} />
                             </div>
                         </div>
 

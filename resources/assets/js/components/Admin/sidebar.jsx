@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import webUrl from '../../abstract/variables';
+import {WEB_URL} from '../../abstract/variables';
 
 class SideBar extends Component {
     render() {
@@ -9,19 +9,19 @@ class SideBar extends Component {
             
                 <div className="navMenu" >
                     <div className="navMenu__subMenu">
-                        <a href={webUrl + 'admin/products'} >
+                        <a href={WEB_URL + 'admin/products'} >
                             <div className="navMenu__subMenu__hd f_tab_h1" id="hd1">Products</div>
                         </a>
                     </div>
                     
                     <div className="navMenu__subMenu">
-                        <a href={webUrl + 'admin/accounts'} >
+                        <a href={WEB_URL + 'admin/accounts'} >
                             <div className="navMenu__subMenu__hd f_tab_h1 " id="hd1">Accounts</div>
                         </a>
                     </div>
 
                     <div className="navMenu__subMenu">
-                        <a href={webUrl + 'admin/repo'} >
+                        <a href={WEB_URL + 'admin/repo'} >
                             <div className="navMenu__subMenu__hd f_tab_h1" id="hd1">Repository</div>
                         </a>
                     </div>
