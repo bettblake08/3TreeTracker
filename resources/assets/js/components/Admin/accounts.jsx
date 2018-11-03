@@ -68,6 +68,21 @@ class AccountsView extends Component {
         axios({
             url: webUrl + "admin/getAccounts/" + state.filterSearch.name + "/" + state.filterSearch.country + "/" + state.offset,
             method:"GET"
+        }).then((response) => {
+        
+            if(response.status == 200){
+                var data = response.data;
+
+                if (data.content.length == 0) {
+                    state.errorPopup.displayError("There are no more accounts to retrieve. Continue creating more.");
+                    return;
+                }
+
+                state.content = state.content.concat(data.content);
+                state.offset += data.content.length;
+                c.setState(state);
+            }
+
         }).catch((response) => {
 
             if(response.status != 200){
@@ -76,23 +91,6 @@ class AccountsView extends Component {
                 }, 1000)
             }
 
-        }).then((response)=>{
-            var data = response.data;
-
-            switch(data.error){
-                case 0:{
-
-                    if(data.content.length == 0){
-                        state.errorPopup.displayError("There are no more accounts to retrieve. Continue creating more.");
-                        break;
-                    }
-
-                    state.content = state.content.concat(data.content) ;
-                    state.offset += data.content.length;
-                    c.setState(state);
-                    break;
-                }
-            }
         })
 
     }
@@ -308,31 +306,27 @@ class EditAccountPopup extends Component {
             data:{
                 placementId:state.placements[0].id
             }
-        }).catch((response) => {
+        }).then((response) => {
 
-            if (response.status != 200) {
-                state.errorPopup.displayError("Failed to access server. Please try again later.");
+            if(response.status == 200){
+                c.props.parent.toggleEditAccountPopup();
             }
 
-        }).then((response) => {
-            var data = response.data;
+        }).catch((response) => {
 
-            switch (data.error) {
-                case 0: {
-                    c.props.parent.toggleEditAccountPopup();
-                    break;
-                }
-                case 1:{
+            switch (response.status) {
+                case 404: {
                     state.errorPopup.displayError("There is no such user with this id. Please use vaild id.");
                     break;
                 }
-                case 2: {
+                case 500: {
                     state.errorPopup.displayError("Failed to save changes. Please try again later.");
                     break;
                 }
+                default: state.errorPopup.displayError("Failed to access server. Please try again later.");break;
             }
-        })
-                
+
+        })  
     }
 
     render() {

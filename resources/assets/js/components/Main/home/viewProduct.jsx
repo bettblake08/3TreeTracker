@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {webUrl,defaultProductCoverPic} from '../../../abstract/variables';
+import {webUrl, defaultProductCoverPic} from '../../../abstract/variables';
 import CommentingSystem from '../../commentingSystem';
 import ErrorPopup from "../../UI/errorPopup";
 import moment from "moment";

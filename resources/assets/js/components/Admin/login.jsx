@@ -29,6 +29,7 @@ class Login extends Component {
             }, 3000);
         }
     }
+
     handleUsernameChange(e) {
         if (e == undefined) { return; }
 
@@ -73,54 +74,48 @@ class Login extends Component {
             method:"POST",
             data: formData
         }).then((response)=>{
-            var data = response.data;
-            console.log("Log in successful! Error:" + data.error);
 
-            switch (data.error) {
-                case 0: {
-                    //localStorage.setItem('currentUser', response.user);
-                    //component.setAuthorization(data.access_token);
-                    //localStorage.setItem('access_token', data.access_token);
-                    //localStorage.setItem('refresh_token', data.refresh_token);
-                    window.location.href = webUrl + "admin/products";
-                    break;
-                }
-                case 1:
-                case 2:
-                case 3:{
-                    state.error = data.data.error;
-                    state.buttons[0].state.status = 1;
-                    component.setState(state);
-                    break;
-                }
+            if(response.status === 200){
+                console.log("Log in successful! Error:" + data.error);
+                var data = response.data;
+                //localStorage.setItem('currentUser', response.user);
+                //component.setAuthorization(data.access_token);
+                //localStorage.setItem('access_token', data.access_token);
+                //localStorage.setItem('refresh_token', data.refresh_token);
+                
+                window.location.href = webUrl + "admin/products";
             }
-        }).catch(()=>{
-            state.error = 404;
-            component.setState(state);
+            
+        }).catch((response) => {
+
+            if(response.status !== 200){
+                state.error = response.status;
+                state.buttons[0].state.status = 1;
+                component.setState(state);
+            }
+            
         })
 
     };
 
 
     render() {
-
         var errorText = "";
 
         switch (this.state.error) {
-            case 1: {
+            case 404: {
                 errorText = "User doesn't exist. Please enter a valid username";
                 break;
             }
-            case 2:
-            case 3:{
+            case 403:{
                 errorText = "Username or password is incorrect. Please try again.";
                 break;
             }
-            case 11: {
+            case 400: {
                 errorText = "Incorrect input value. Please input an email or phone number.";
                 break;
             }
-            case 404: {
+            case 500: {
                 errorText = "Access to server failed. Please try again. ";
                 break;
             }
@@ -162,8 +157,6 @@ class Login extends Component {
                             <div id="login_btn">
                                 <Button parent={this} status={0} config={{text:"",label:"Log In",type:"btn_1",action:this.adminLogin}}/>
                             </div>
-
-
 
 
                         </form>
