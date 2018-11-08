@@ -1,5 +1,5 @@
 """ This module hosts the admin controller class. """
-from flask import jsonify
+from flask import jsonify, make_response
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_raw_jwt, set_access_cookies,
                                 set_refresh_cookies, unset_jwt_cookies)
@@ -52,13 +52,12 @@ class AdminController:
 
         if not current_user:
             return jsonify({
-                "error": 1,
                 "message": "User {} does not exist!".format(data["username"])
             }), 404
 
         if not current_user.authenticate(data["password"]):
             return jsonify({
-                "message": "Wrong credentials"
+                "message": "Wrong credentials!"
             }), 401
 
         logged_in_user = {
@@ -172,10 +171,11 @@ class AdminController:
 
             content.append(post_data)
 
-        return jsonify({
+        return make_response(
+            jsonify({
             "message": "You have successfully retrieved the list of posts!",
             "content": content
-        }), 200
+        }), 200)
 
     @staticmethod
     def get_longrich_accounts(name, country, offset):
@@ -225,7 +225,7 @@ class AdminController:
     @staticmethod
     def validate_login_data(data):
         """ This function handles the validation of login inputs."""
-        if data.username > 30:
+        if len(data.username) > 30:
             return {
                 "message": "Username too long. Please enter a username less than 30 characters!"
             }, 400

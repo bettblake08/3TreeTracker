@@ -10,7 +10,7 @@ class ProductModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
-    body = db.Column(db.String(60000))
+    body = db.Column(db.Text)
     summary = db.Column(db.String(200))
     imageId = db.Column(db.Integer, db.ForeignKey("repo_file.id"))
     views = db.Column(db.Integer)

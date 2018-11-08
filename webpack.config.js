@@ -22,20 +22,24 @@ var admin = {
 
 var entries = {
     main_css: `${scssRoot}/main.scss`,
+
+    main_home_css: `${main.scss}/home.scss`,
+
     main_header_js: `${main.js}/header.jsx`,
     main_footer_js: `${main.js}/footer.jsx`,
     main_home_js: `${main.js}/home.jsx`,
-    main_home_css: `${main.scss}/home.scss`,
     
     admin_css: `${scssRoot}/admin.scss`,
-    admin_header_js: `${admin.js}/header.jsx`,
+    
     admin_login_css: `${admin.scss}/login.scss`,
-    admin_login_js: `${admin.js}/login.jsx`,
     admin_repo_css: `${admin.scss}/repo.scss`,
-    admin_repo_js: `${admin.js}/repo.jsx`,
-    admin_products_css: `${admin.scss}/products.scss`,
-    admin_products_js: `${admin.js}/products.jsx`,
     admin_accounts_css: `${admin.scss}/accounts.scss`,
+    admin_products_css: `${admin.scss}/products.scss`,
+
+    admin_header_js: `${admin.js}/header.jsx`,
+    admin_login_js: `${admin.js}/login.jsx`,
+    admin_repo_js: `${admin.js}/repo.jsx`,
+    admin_products_js: `${admin.js}/products.jsx`,
     admin_accounts_js: `${admin.js}/accounts.jsx`
 }
 
@@ -66,7 +70,7 @@ const config = {
             },
             {
                 test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-                use: ['url-loader?limit=100000', 'file-loader']
+                use: ['file-loader']
             }
         ],
     },

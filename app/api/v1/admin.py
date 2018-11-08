@@ -25,7 +25,7 @@ API.add_resource(AdminProduct, '/product/<string:param>')
 API.add_resource(UploadAPI, '/uploadFiletoRepo/<uuid>')
 
 
-@API_V1_ADMIN.route('/loginAuth', methods=['POST'])
+@API_V1_ADMIN.route('/login', methods=['POST'])
 def login_auth():
     """ This function redirects the api request to the admin controller that handles
         the logging in of an admin account.

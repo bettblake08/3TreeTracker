@@ -4,16 +4,19 @@ from app import create_app
 from db import db
 from app.database.factory import generate_test_data
 
-APP = create_app("TEST")
 
 
-class TestModel(unittest.TestCase):
+
+class APITestCase(unittest.TestCase):
     """ This class is the base test class """
-
-    def setUp(self):
-        self.client = APP.test_client()
+    @classmethod
+    def setUpClass(self):
+        self.app = create_app("TEST")
+        self.app.app_context().push()
         db.create_all()
         generate_test_data()
+        self.test_client = self.app.test_client()
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         db.drop_all()

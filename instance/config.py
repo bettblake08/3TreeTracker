@@ -37,22 +37,23 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = b'\x0c$V\x92\x1b1\x05xp@\xfa\xdc\x94\x87\xc4\x0f'
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:m21c07s96@127.0.0.1/longrich'
+    DB_NAME = "longrich"
+    DB_HOST = "127.0.0.1"
+    DB_USER = "root"
+    DB_PASSWORD = "m21c07s96"
+
+    SQLALCHEMY_URI = 'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD \
+        + '@' + DB_HOST + '/'
+
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI + DB_NAME
 
     JWT_SECRET_KEY = b'\x0c$V\x92\x1b1\x05xp@\xfa\xdc\x94\x87\xc4\x0f'
     JWT_COOKIE_SECURE = False
     JWT_COOKIE_CSRF_PROTECT = False
 
 
-class TestingConfig(Config):
-    ENV = "development"
-    DEBUG = True
+class TestingConfig(DevelopmentConfig):
     TESTING = True
-
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:m21c07s96@127.0.0.1/longrich'
-
-    JWT_COOKIE_SECURE = False
-    JWT_COOKIE_CSRF_PROTECT = False
 
 
 APP_CONFIG = {
