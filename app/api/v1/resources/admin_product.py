@@ -63,6 +63,11 @@ class AdminProduct(Resource):
             data.pro__summary,
             data.pro__image)
 
+        if not self.is_input_an_array(data.pro__tags):
+            return {
+                "message": "Invalid tag list!"
+            }, 400
+        
         try:
             image = RepoFileModel.find_by_id(data.pro__image)
 
@@ -124,3 +129,17 @@ class AdminProduct(Resource):
             return {
                 "message": "Failed to update the product!"
                 }, 500
+
+    @classmethod
+    def is_input_an_array(cls, json_array):
+
+        try:
+            loaded_array = json.loads(json_array)
+
+            if not isinstance(loaded_array, list):
+                return False
+
+            return True
+
+        except:
+            return False

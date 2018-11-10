@@ -46,19 +46,23 @@ class AdminController:
         response = AdminController.validate_login_data(data)
 
         if response:
-            return response
+            return make_response(response)
 
         current_user = AdminUserModel.find_by_username(data["username"])
 
         if not current_user:
-            return jsonify({
-                "message": "User {} does not exist!".format(data["username"])
-            }), 404
+            return make_response(
+                jsonify({
+                    "message": "User {} does not exist!".format(data["username"])
+                }), 404
+            )
 
         if not current_user.authenticate(data["password"]):
-            return jsonify({
-                "message": "Wrong credentials!"
-            }), 401
+            return make_response(
+                jsonify({
+                    "message": "Wrong credentials!"
+                }), 401
+            )
 
         logged_in_user = {
             "id": current_user.id,
@@ -88,18 +92,20 @@ class AdminController:
         revoked_token = RevokedTokenModel(token=jti)
 
         try:
-            revoked_token.add()
+            revoked_token.save()
 
             resp = jsonify({
-                "message": "Access token has been revoked"
+                "message": "Access token has been revoked!"
             })
             unset_jwt_cookies(resp)
 
             return resp, 200
         except:
-            return jsonify({
-                "message": "Failed to log out admin!"
-            }), 500
+            return make_response(
+                jsonify({
+                    "message": "Failed to log out admin!"
+                }), 500
+            )
 
     @staticmethod
     def admin_data():
@@ -189,9 +195,9 @@ class AdminController:
         try:
             offset = int(offset)
         except:
-            return {
+            return make_response(jsonify({
                 "message": "Invalid offset!"
-            }, 400
+            }), 400)
 
         users = LongrichUserModel.get_users_by_offset(name, country, offset)
 
@@ -217,22 +223,22 @@ class AdminController:
 
             content.append(user_data)
 
-        return {
+        return make_response(jsonify({
             "message": "You have successfully retrieved the list of user accounts!",
             "content": content
-        }, 200
+        }), 200)
 
     @staticmethod
     def validate_login_data(data):
         """ This function handles the validation of login inputs."""
         if len(data.username) > 30:
-            return {
+            return jsonify({
                 "message": "Username too long. Please enter a username less than 30 characters!"
-            }, 400
+            }), 400
 
         if not Serialization.test_password(
                 password=data.password,
                 reg_type=1):
-            return {
-                "message": "Invalid password!"
-            }, 400
+            return jsonify({
+                "message": "Password is invalid!"
+            }), 400

@@ -15,28 +15,6 @@ API = Api(API_V1_MAIN)
 
 MAIN_CONTROLLER = MainController()
 
-JWT = JWTManager()
-
-
-@JWT.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    """ This function is a jwt blacklist loader to check whether the token
-        provided has been blacklisted.
-    """
-    jti = decrypted_token['jti']
-    return RevokedTokenModel.is_token_blacklisted(jti)
-
-
-@JWT.unauthorized_loader
-@JWT.invalid_token_loader
-@JWT.expired_token_loader
-def redirect_to_login():
-    """ This function redirects any url call that contains an expired, 
-        unauthorized or invalid token to the admin login.
-    """
-    return redirect(url_for("adminLogin"))
-
-
 API.add_resource(
     Comment, '/comment/<string:param>/<string:param2>/<string:offset>')
 API.add_resource(
