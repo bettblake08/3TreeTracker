@@ -1,0 +1,272 @@
+.pro--1__con {
+  width: 28%;
+  height: 50rem;
+  position: relative;
+  margin: 3rem 2.5%;
+  float: left;
+  box-shadow: 0 0.1rem 2rem -0.5rem #000;
+  overflow: hidden;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease; }
+  .pro--1__con:hover {
+    box-shadow: 0 0.1rem 2rem -0.5rem #13ff82; }
+  .pro--1__con__up {
+    width: 100%;
+    height: 40%;
+    float: left;
+    overflow: hidden; }
+  .pro--1__con__down {
+    width: 100%;
+    height: 60%;
+    float: left;
+    padding: 1% 2%;
+    box-shadow: 0 0.1rem 2rem -0.5rem #000; }
+
+.pro--1__title {
+  color: #009468;
+  width: 95%;
+  padding: .5rem 0 0 5%;
+  max-height: 10rem;
+  overflow: hidden; }
+
+.pro--1__author {
+  color: #171717;
+  width: 80%;
+  padding: .5rem 2% .5rem 5%;
+  overflow: hidden; }
+
+.pro--1__time {
+  color: #171717;
+  width: 80%;
+  padding: 0 2% .5rem 5%;
+  overflow: hidden; }
+
+.pro--1__text {
+  color: #171717;
+  width: 65%;
+  height: 70%;
+  padding-left: 5%;
+  float: left;
+  overflow: hidden; }
+
+.pro--1__stat {
+  float: right;
+  width: 20%;
+  height: 100%; }
+  .pro--1__stat__view, .pro--1__stat__likes, .pro--1__stat__com {
+    width: 100%;
+    height: 3rem; }
+  .pro--1__stat__icon {
+    width: 2rem;
+    height: 2rem;
+    margin: .5rem 0;
+    overflow: hidden;
+    float: left; }
+  .pro--1__stat__value {
+    float: right;
+    width: 50%;
+    color: #13ff82;
+    line-height: 3rem; }
+
+.pro--1__edit, .pro--1__del {
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  margin: 1rem auto; }
+
+.pro--1__edit {
+  margin-top: 1rem; }
+
+#main {
+  height: 40rem;
+  margin: 5rem auto;
+  position: static; }
+
+.view--active, .view--disabled {
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+  background-color: #FFF;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  width: 100%; }
+
+.view--active {
+  height: 100%; }
+
+.view--disabled {
+  height: 0; }
+
+.view--scrollable {
+  overflow: scroll;
+  width: 100%;
+  height: 100%; }
+
+.topBar {
+  border-bottom: solid 0.1rem #009468;
+  float: left;
+  width: 100%; }
+  .topBar__title {
+    color: #009468;
+    padding: 1rem 2rem;
+    float: left; }
+  .topBar__right {
+    height: 5rem;
+    padding: 0;
+    float: right; }
+    .topBar__right__add {
+      height: 5rem;
+      width: 15rem;
+      float: right; }
+    .topBar__right__button {
+      height: 4rem;
+      width: auto;
+      float: right; }
+
+.content__view {
+  min-height: 60vh;
+  float: left;
+  width: 100%; }
+
+.loadBtn {
+  margin-top: 2rem;
+  float: left;
+  width: 100%; }
+
+#pro__image {
+  width: 60%;
+  height: 30rem;
+  margin-left: 20%; }
+  #pro__image #img_select {
+    width: 100%;
+    height: 100%;
+    position: relative; }
+    #pro__image #img_select__img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 0;
+      float: left;
+      overflow: hidden; }
+    #pro__image #img_select__buttons {
+      width: 15%;
+      height: 5rem;
+      position: absolute;
+      bottom: 0;
+      margin: 0 40%;
+      z-index: 20;
+      float: left;
+      overflow: hidden; }
+
+#pro__form {
+  width: 60%;
+  position: relative;
+  margin: 5rem 20% 10rem 20%;
+  float: left; }
+  #pro__form .comment {
+    margin-top: 1rem; }
+
+#pro__title, #pro__author, #pro__textBox, #pro__summaryBox {
+  float: left;
+  width: 100%;
+  margin-bottom: 3rem; }
+  #pro__title__label, #pro__author__label, #pro__textBox__label, #pro__summaryBox__label {
+    color: #009468;
+    margin: 1rem 0; }
+
+#pro__title__input, #pro__author__input {
+  width: 100%;
+  height: 3.5rem; }
+
+#pro__textBox__input {
+  height: auto;
+  width: 100%;
+  position: relative; }
+
+#pro__summaryBox textarea {
+  height: 15rem;
+  color: #171717;
+  padding: 1rem;
+  text-indent: 0 !important; }
+
+#pro__save, #pro__return {
+  float: left;
+  position: relative;
+  width: 10rem;
+  margin-right: 2rem; }
+
+.popUp__content {
+  width: 150vh;
+  height: 80vh; }
+
+.repo .popup--active {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%; }
+
+.repo .popup__content {
+  transform: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.form__image {
+  width: 60%;
+  height: 30rem;
+  margin-left: 20%; }
+  .form__image #img_select {
+    width: 100%;
+    height: 100%;
+    position: relative; }
+    .form__image #img_select__img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 0;
+      float: left;
+      overflow: hidden; }
+    .form__image #img_select__buttons {
+      width: 15%;
+      height: 5rem;
+      position: absolute;
+      bottom: 0;
+      margin: 0 40%;
+      z-index: 20;
+      float: left;
+      overflow: hidden; }
+
+.form__box {
+  position: relative;
+  width: 60%;
+  margin: 5rem 20% 10rem 20%;
+  float: left; }
+
+.form__title, .form__author, .form__textBox, .form__summaryBox, .form__tagInput {
+  float: left;
+  width: 100%;
+  margin-bottom: 3rem; }
+
+.form__textBox__label, .form__tagInput__label {
+  color: #009468;
+  margin-bottom: 1rem; }
+
+.form__summaryBox textarea {
+  min-height: 5rem;
+  max-height: 15rem; }
+
+.form__buttons {
+  float: left; }
+  .form__buttons__button {
+    width: 15rem;
+    float: left;
+    height: 5rem;
+    margin-right: 2rem; }
+
