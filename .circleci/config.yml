@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.2
+        environment:
+          APP_ENV: TEST
+          DB_USER: postgres
+          DB_NAME: longrichtest
+          DB_PASSWORD: "m21c07s96"
+          DB_HOST: "localhost"
+          DATABASE_URL: postgresql://postgres@localhost/longrichtest:m21c07s96?sslmode=disable
+      - image: circleci/postgres:9.6.5-alpine-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: longrichtest
+          POSTGRES_PASSWORD: "m21c07s96"
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Test API Endpoints
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+            python -m pytest -vv --cov=app app/tests/ --cov-report term-missing
+            coverage xml
+            ./cc-test-reporter after-build 
+
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
