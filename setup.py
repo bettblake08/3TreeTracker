@@ -21,6 +21,8 @@ setup(
         "psycopg2",
         "Pillow>=5.2.0",
         "pymysql",
-        "pytest"
+        "pytest",
+        "coveralls",
+        "pytest-cov"
     ]
 )
