@@ -10,15 +10,17 @@ APP = create_app(os.getenv("APP_ENV"))
 
 @APP.cli.command("db:init:test")
 def db_init_test():
+    create_test_database()
+    
     try:
-        create_test_database()
         db.create_all()
         generate_test_data()
 
         print("Successfully initialized test database!")
 
     except:
-        print("Failed to initialize test database!")  
+        print("Failed to initialize test database!")
+
 
 @APP.cli.command("db:init")
 def db_init():
@@ -36,7 +38,7 @@ def db_init():
 def db_teardown():
     try:
         db.drop_all()
-
+        print("Successfully dropped all tables!")
     except:
         print("Failed to drop database tables!")
 

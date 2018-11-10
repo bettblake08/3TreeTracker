@@ -3,8 +3,9 @@
 """
 from os import path
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_webpack import Webpack
+from flask_jwt_extended import JWTManager
 
 from db import db
 
@@ -12,6 +13,7 @@ from app.pages import ADMIN_PAGES, MAIN_PAGES
 from app.api.v1 import API_V1_ADMIN, API_V1_MAIN, API_V1_USER
 
 from instance.config import APP_CONFIG
+from app.database.models import RevokedTokenModel
 
 
 def create_app(config_name):
@@ -38,5 +40,25 @@ def create_app(config_name):
     webpack.init_app(app)
 
     db.init_app(app)
+
+    JWT = JWTManager(app)
+
+    @JWT.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        """ This function is a jwt blacklist loader to check whether the token
+            provided has been blacklisted.
+        """
+        jti = decrypted_token['jti']
+        return RevokedTokenModel.is_token_blacklisted(jti)
+
+
+    @JWT.unauthorized_loader
+    @JWT.invalid_token_loader
+    @JWT.expired_token_loader
+    def redirect_to_login(error):
+        """ This function redirects any url call that contains an expired, 
+            unauthorized or invalid token to the admin login.
+        """
+        return redirect(url_for("ADMIN_PAGES.admin_login_page"))
 
     return app
