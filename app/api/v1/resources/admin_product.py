@@ -104,7 +104,7 @@ class AdminProduct(Resource):
 
         if not product:
             return {
-                "message": "Product doesn't exist!"
+                "message": "Product does not exist!"
                 }, 404
 
         if product.imageId != data.pro__image:
@@ -117,10 +117,15 @@ class AdminProduct(Resource):
         product.summary = data.pro__summary
         product.imageId = data.pro__image
 
-        ProductTagModel.update_tags(product.id, json.loads(data.pro__tags))
+        if not self.is_input_an_array(data.pro__tags):
+            return {
+                "message": "Invalid tag list!"
+            }, 400
 
         try:
             product.save()
+            ProductTagModel.update_tags(product.id, json.loads(data.pro__tags))
+
             return {
                 "message": "You have successfully updated the product!"
                 }, 200
