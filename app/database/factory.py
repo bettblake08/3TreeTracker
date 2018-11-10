@@ -44,8 +44,8 @@ def generate_admin_user():
     """ This function handles the generation of admin user accounts """
     try:
         AdminUserModel(
-            "johndoe1",
-            generate_password_hash("johndoe@A1")
+            "johndoe2",
+            generate_password_hash("johndoe@A2")
         ).save()
         return True
 
