@@ -1,18 +1,18 @@
 import datetime
 import shutil
 
-from db import db
+from app.database.db import DATABASE
 
 
-class ProductTagModel(db.Model):
+class ProductTagModel(DATABASE.Model):
     __tablename__ = "product_tags"
 
-    id = db.Column(db.Integer, primary_key=True)
-    productId = db.Column(db.Integer, db.ForeignKey("products.id"))
-    tagId = db.Column(db.Integer, db.ForeignKey('tags.id'))
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    productId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey("products.id"))
+    tagId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('tags.id'))
 
-    product = db.relationship('ProductModel')
-    tag = db.relationship('TagModel')
+    product = DATABASE.relationship('ProductModel')
+    tag = DATABASE.relationship('TagModel')
 
     def __init__(self, productId, tagId):
         self.productId = productId
@@ -60,9 +60,9 @@ class ProductTagModel(db.Model):
             return False
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

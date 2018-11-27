@@ -1,15 +1,14 @@
 import datetime
-from db import db
+from app.database.db import DATABASE
 from app.database.models.product import ProductModel
 
-
-class PostModel(db.Model):
+class PostModel(DATABASE.Model):
     __tablename__ = "posts"
 
-    id = db.Column(db.Integer, primary_key=True)
-    postId = db.Column(db.Integer)
-    postType = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    postId = DATABASE.Column(DATABASE.Integer)
+    postType = DATABASE.Column(DATABASE.Integer)
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow())
 
     def __init__(self, postId, postType):
         self.postId = postId
@@ -41,8 +40,8 @@ class PostModel(db.Model):
             return ProductModel.find_by_id(self.postId)
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
 
@@ -52,5 +51,5 @@ class PostModel(db.Model):
             if product:
                 product.delete()
 
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

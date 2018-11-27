@@ -3,7 +3,7 @@ import os
 from app import create_app
 from app.database import (create_test_database, generate_initial_data,
                           generate_test_data, create_database)
-from db import db
+from app.database import DATABASE
 
 APP = create_app(os.getenv("APP_ENV"))
 

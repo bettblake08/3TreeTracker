@@ -1,13 +1,13 @@
-from db import db
+from app.database.db import DATABASE
 
 
-class TagModel(db.Model):
+class TagModel(DATABASE.Model):
     __tablename__ = "tags"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120))
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    name = DATABASE.Column(DATABASE.String(120))
 
-    product = db.relationship('ProductTagModel')
+    product = DATABASE.relationship('ProductTagModel')
 
     def __init__(self, name):
         self.name = name.lower()
@@ -33,9 +33,9 @@ class TagModel(db.Model):
         return cls.query.filter(cls.id.in_(tags))
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

@@ -1,20 +1,23 @@
 """ This module hosts all test configurations for running test on api """
-import unittest
-from app import create_app
-from db import db
-from app.database.factory import generate_test_data
-from app.database import create_test_database
 import json
+import unittest
+
+from app import create_app
+from app.database import create_database
+from app.database.db import DATABASE
+from app.database.factory import generate_test_data
+
+
 class APITestCase(unittest.TestCase):
     """ This class is the base test class """
     @classmethod
     def setUpClass(cls):
-        create_test_database()
+        create_database("TEST")
 
         cls.app = create_app("TEST")
         cls.app.app_context().push()
 
-        db.create_all()
+        DATABASE.create_all()
         generate_test_data()
         
         cls.test_client = cls.app.test_client()
@@ -34,5 +37,5 @@ class APITestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        db.session.session_factory.close_all()
-        db.drop_all()
+        DATABASE.session.session_factory.close_all()
+        DATABASE.drop_all()

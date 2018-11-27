@@ -1,15 +1,15 @@
-from db import db
+from app.database.db import DATABASE
 from app.database.models.repo_file import RepoFileModel
 
 
-class RepoFolderModel(db.Model):
+class RepoFolderModel(DATABASE.Model):
     __tablename__ = "repo_folder"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(60))
-    parent = db.Column(db.Integer)
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    name = DATABASE.Column(DATABASE.String(60))
+    parent = DATABASE.Column(DATABASE.Integer)
 
-    files = db.relationship('RepoFileModel', lazy="dynamic")
+    files = DATABASE.relationship('RepoFileModel', lazy="dynamic")
 
     def __init__(self, name):
         self.name = name if name else ""
@@ -63,8 +63,8 @@ class RepoFolderModel(db.Model):
         return bool(folders)
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
         files = self.files.all()
@@ -77,5 +77,5 @@ class RepoFolderModel(db.Model):
         for x in folders:
             x.delete()
 
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()
