@@ -2,8 +2,7 @@ import os
 
 from app import create_app
 from app.database import (create_test_database, generate_initial_data,
-                          generate_test_data)
-
+                          generate_test_data, create_database)
 from db import db
 
 APP = create_app(os.getenv("APP_ENV"))
@@ -11,7 +10,7 @@ APP = create_app(os.getenv("APP_ENV"))
 @APP.cli.command("db:init:test")
 def db_init_test():
     create_test_database()
-    
+
     try:
         db.create_all()
         generate_test_data()
@@ -20,6 +19,17 @@ def db_init_test():
 
     except:
         print("Failed to initialize test database!")
+
+
+@APP.cli.command("db:create")
+def db_create():
+    try:
+        create_database(APP.config.get("DB_NAME"))
+        
+        print("Successfully created the database!")
+
+    except:
+        print("Failed to create the database!")
 
 
 @APP.cli.command("db:init")
