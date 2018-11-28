@@ -22,8 +22,9 @@ class APITestCase(unittest.TestCase):
         
         cls.test_client = cls.app.test_client()
 
-    def admin_login(self):
-        self.test_client.post(
+    @classmethod
+    def admin_login(cls):
+        cls.test_client.post(
             'api/v1/admin/login',
             data=json.dumps(
                 {
@@ -32,10 +33,24 @@ class APITestCase(unittest.TestCase):
                 }),
             content_type="application/json")
 
-    def admin_logout(self):
-        self.test_client.get('/api/v1/admin/logout')
+    @classmethod
+    def admin_logout(cls):
+        cls.test_client.get('/api/v1/admin/logout')
 
     @classmethod
     def tearDownClass(cls):
         DATABASE.session.session_factory.close_all()
         DATABASE.drop_all()
+
+
+class ADMINAPITestCase(APITestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        super().admin_login()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().admin_logout()
+        super().tearDownClass()

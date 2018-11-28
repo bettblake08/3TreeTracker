@@ -2,27 +2,49 @@
 from flask_restful import Resource, reqparse
 from app.database.models import AdminUserModel
 from werkzeug.security import generate_password_hash
+from app.managers.serialization import Serialization
 
 
 class AdminUser(Resource):
     parser = reqparse.RequestParser()
 
-    parser.add_argument('username',
-                        required=True,
-                        help="The username field is required")
+    parser.add_argument(
+        'username',
+        required=True,
+        help="The username field is required!"
+        )
 
-    parser.add_argument('password',
-                        required=True,
-                        help="The password field is required")
+    parser.add_argument(
+        'password',
+        required=True,
+        help="The password field is required!"
+        )
 
     def post(self, param):
         """ Add New Admin User Account Endpoint """
         data = AdminUser.parser.parse_args()
 
-        if AdminUserModel.find_by_username(data.username):
+        if data.username == "":
+            return {
+                "message": "The username value is required!"
+            }, 400
+
+        if data.password == "":
+            return {
+                "message": "The password value is required!"
+            }, 400
+
+        existing_user = AdminUserModel.find_by_username(data.username)
+
+        if existing_user:
             return {
                 "message": "User already exists!"
-                }, 404
+                }, 403
+
+        if not Serialization.test_password(data.password, 1):
+            return {
+                "message": "Invalid password!"
+            }, 400
 
         user = AdminUserModel(
             data.username,
@@ -38,7 +60,7 @@ class AdminUser(Resource):
         except:
             return {
                 "message": "Failed to create an admin user account!"
-            }
+            }, 500
 
     def delete(self, param):
         """ Delete Admin Account Endpoint """
@@ -54,7 +76,7 @@ class AdminUser(Resource):
             user.delete()
             return {
                 "message": "You have successfully deleted the admin account!"
-            }
+            }, 200
 
         except:
             return {

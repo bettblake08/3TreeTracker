@@ -1,43 +1,28 @@
-from app.tests.v1.test_config import APITestCase
 from flask import json
 
+from app.tests.v1.test_config import ADMINAPITestCase
+from app.tests.v1.test_data import PRODUCT
 
-class TestPostNewProductEndpoint(APITestCase):
-    running_tests = 0
 
-    def setUp(self):
-        if self.running_tests == 0:
-            self.admin_login()
-
-        self.running_tests += 1
-
-        import pdb; pdb.set_trace()
-
-    def tearDown(self):
-        self.running_tests -= 1 
-
-        if self.running_tests == 0:
-            self.admin_logout()
-
-        import pdb; pdb.set_trace()
-
-    def post_new_product(self, data, product_id):
+class TestUpdateProductEndpoint(ADMINAPITestCase):
+    
+    def update_product(self, data, product_id):
         return self.test_client.put(
-            '/api/v1/admin/product/' + product_id,
+            '/api/v1/admin/product/{}'.format(product_id),
             data=data,
             content_type='application/json'
         )
 
     def test_using_no_title_field(self):
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__tit": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__tit": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -47,15 +32,15 @@ class TestPostNewProductEndpoint(APITestCase):
             "Unexpected response status!")
 
     def test_using_no_body_field(self):
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -65,15 +50,15 @@ class TestPostNewProductEndpoint(APITestCase):
             "Unexpected response status!")
 
     def test_using_no_summary_field(self):
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summy": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summy": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -83,15 +68,15 @@ class TestPostNewProductEndpoint(APITestCase):
             "Unexpected response status!")
 
     def test_using_no_image_id_field(self):
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__ime": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__ime": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -101,15 +86,15 @@ class TestPostNewProductEndpoint(APITestCase):
             "Unexpected response status!")
 
     def test_using_no_tags_field(self):
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__ta": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__ta": PRODUCT.get("tags")
                 }
             ))
 
@@ -120,15 +105,15 @@ class TestPostNewProductEndpoint(APITestCase):
 
     def test_using_unexisting_image_id(self):
 
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
                     "pro__image": 999,
-                    "pro__tags": json.dumps([1])
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -141,19 +126,19 @@ class TestPostNewProductEndpoint(APITestCase):
 
         self.assertEqual(
             data['message'],
-            "Image not found!",
+            "Image does not exist!",
             "Unexpected response message!")
 
     def test_using_invalid_tag_array(self):
 
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
                     "pro__tags": ","
                 }
             ))
@@ -172,15 +157,15 @@ class TestPostNewProductEndpoint(APITestCase):
 
     def test_using_invalid_id(self):
 
-        response = self.post_new_product(
+        response = self.update_product(
             product_id="ro",
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -191,15 +176,15 @@ class TestPostNewProductEndpoint(APITestCase):
 
     def test_using_unexisting_product_id(self):
 
-        response = self.post_new_product(
-            product_id=60,
+        response = self.update_product(
+            product_id=999,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -212,20 +197,20 @@ class TestPostNewProductEndpoint(APITestCase):
 
         self.assertEqual(
             data['message'],
-            "Product not found!",
+            "Product does not exist!",
             "Unexpected response message!")
 
     def test_using_valid_data(self):
 
-        response = self.post_new_product(
+        response = self.update_product(
             product_id=1,
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -233,10 +218,10 @@ class TestPostNewProductEndpoint(APITestCase):
 
         self.assertEqual(
             response.status_code,
-            201,
+            200,
             "Unexpected response status!")
 
         self.assertEqual(
             data['message'],
-            "You have successfully posted a new product!",
+            "You have successfully updated the product!",
             "Unexpected response message!")

@@ -99,6 +99,14 @@ class AdminProduct(Resource):
     def put(self, param):
         """ Update Product Endpoint """
         data = AdminProduct.parser.parse_args()
+        
+        try:
+            product_id = int(param)
+
+        except:
+            return {
+                "message": "Invalid product id!"
+            }, 400
 
         product = ProductModel.find_by_id(param)
 
@@ -110,6 +118,12 @@ class AdminProduct(Resource):
         if product.imageId != data.pro__image:
             product.image.decrease_users()
             image = RepoFileModel.find_by_id(data.pro__image)
+
+            if not image:
+                return {
+                    "message": "Image does not exist!"
+                }, 404
+                
             image.increase_users()
 
         product.title = data.pro__title
