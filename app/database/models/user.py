@@ -1,12 +1,12 @@
-from db import db
+from app.database.db import DATABASE
 from werkzeug.security import check_password_hash
 
 
-class UserModel(db.Model):
+class UserModel(DATABASE.Model):
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(30))
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    user = DATABASE.Column(DATABASE.String(30))
 
     def __init__(self, user):
         self.user = user
@@ -23,9 +23,9 @@ class UserModel(db.Model):
         return cls.query.get(_id)
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

@@ -1,22 +1,22 @@
 import datetime
 import shutil
 
-from db import db
+from app.database.db import DATABASE
 
 
-class RepoFileModel(db.Model):
+class RepoFileModel(DATABASE.Model):
     __tablename__ = "repo_file"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(6))
-    originalName = db.Column(db.String(120))
-    fileType = db.Column(db.String(4))
-    uuid = db.Column(db.String(60))
-    usedBy = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    name = DATABASE.Column(DATABASE.String(6))
+    originalName = DATABASE.Column(DATABASE.String(120))
+    fileType = DATABASE.Column(DATABASE.String(4))
+    uuid = DATABASE.Column(DATABASE.String(60))
+    usedBy = DATABASE.Column(DATABASE.Integer)
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow())
 
-    folderId = db.Column(db.Integer, db.ForeignKey('repo_folder.id'))
-    folder = db.relationship('RepoFolderModel')
+    folderId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('repo_folder.id'))
+    folder = DATABASE.relationship('RepoFolderModel')
 
     def __init__(self, name, originalName, fileType, folderId, uuid):
         self.name = name
@@ -65,12 +65,12 @@ class RepoFileModel(db.Model):
         self.save()
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
         from App.Managers.FineUploader import FineUploader
 
         FineUploader().handle_file_delete(self)
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

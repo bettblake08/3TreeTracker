@@ -1,25 +1,25 @@
-from db import db
+from app.database.db import DATABASE
 from app.database.models.product_tag import ProductTagModel
 from app.database.models.repo_file import RepoFileModel
 from app.database.models.user import UserModel
 from app.database.models.product_stats import ProductStatsModel
 
 
-class ProductModel(db.Model):
+class ProductModel(DATABASE.Model):
     __tablename__ = "products"
 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80))
-    body = db.Column(db.Text)
-    summary = db.Column(db.String(200))
-    imageId = db.Column(db.Integer, db.ForeignKey("repo_file.id"))
-    views = db.Column(db.Integer)
-    reactions = db.Column(db.Integer)
-    comments = db.Column(db.Integer)
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    title = DATABASE.Column(DATABASE.String(80))
+    body = DATABASE.Column(DATABASE.Text)
+    summary = DATABASE.Column(DATABASE.String(200))
+    imageId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey("repo_file.id"))
+    views = DATABASE.Column(DATABASE.Integer)
+    reactions = DATABASE.Column(DATABASE.Integer)
+    comments = DATABASE.Column(DATABASE.Integer)
 
-    db.relationship('PostModel')
-    image = db.relationship('RepoFileModel')
-    tags = db.relationship('ProductTagModel')
+    DATABASE.relationship('PostModel')
+    image = DATABASE.relationship('RepoFileModel')
+    tags = DATABASE.relationship('ProductTagModel')
     stats = []
 
     def __init__(self, title, body, summary, imageId):
@@ -107,13 +107,13 @@ class ProductModel(db.Model):
             return False
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
         ProductTagModel.delete_all_product_tags()
         image = RepoFileModel.find_by_id(self.imageId)
         image.decrease_user()
 
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

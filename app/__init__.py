@@ -7,7 +7,7 @@ from flask import Flask, redirect, url_for
 from flask_webpack import Webpack
 from flask_jwt_extended import JWTManager
 
-from db import db
+from app.database.db import DATABASE
 
 from app.pages import ADMIN_PAGES, MAIN_PAGES
 from app.api.v1 import API_V1_ADMIN, API_V1_MAIN, API_V1_USER
@@ -39,7 +39,7 @@ def create_app(config_name):
     webpack = Webpack()
     webpack.init_app(app)
 
-    db.init_app(app)
+    DATABASE.init_app(app)
 
     JWT = JWTManager(app)
 

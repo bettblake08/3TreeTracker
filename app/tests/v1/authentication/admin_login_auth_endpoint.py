@@ -119,6 +119,8 @@ class TestLoginAuthEndpoint(APITestCase):
                 }
             ))
 
+        url_response = self.test_client.get("/api/v1/admin/getProducts/0")
+
         data = json.loads(response.data)
 
         self.assertEqual(
@@ -131,6 +133,11 @@ class TestLoginAuthEndpoint(APITestCase):
             "Logged in as johndoe2!",
             "Unexpected response message!")
 
+        self.assertEqual(
+            url_response.status_code,
+            200,
+            "User has not been connected!"
+        )
 
     def test_using_admin_email_as_username(self):
 

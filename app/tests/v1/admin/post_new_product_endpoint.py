@@ -1,13 +1,10 @@
-from app.tests.v1.test_config import APITestCase
 from flask import json
 
+from app.tests.v1.test_config import ADMINAPITestCase
+from app.tests.v1.test_data import PRODUCT
 
-class TestPostNewProductEndpoint(APITestCase):
-    def setUp(self):
-        self.admin_login()
 
-    def tearDown(self):
-        self.admin_logout()
+class TestPostNewProductEndpoint(ADMINAPITestCase):
 
     def post_new_product(self, data):
         return self.test_client.post(
@@ -20,11 +17,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__tit": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__tit": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -37,11 +34,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -55,11 +52,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summy": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summy": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -73,11 +70,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__ime": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__ime": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -92,11 +89,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__ta": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__ta": PRODUCT.get("tags")
                 }
             ))
 
@@ -110,11 +107,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
                     "pro__image": 999,
-                    "pro__tags": json.dumps([1])
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 
@@ -135,10 +132,10 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
                     "pro__tags": ","
                 }
             ))
@@ -160,11 +157,11 @@ class TestPostNewProductEndpoint(APITestCase):
         response = self.post_new_product(
             data=json.dumps(
                 {
-                    "pro__title": "This is a new product",
-                    "pro__body": "<p>This is a test body</p>",
-                    "pro__summary": "This is a summary",
-                    "pro__image": 1,
-                    "pro__tags": json.dumps([1])
+                    "pro__title": PRODUCT.get("title"),
+                    "pro__body": PRODUCT.get("body"),
+                    "pro__summary": PRODUCT.get("summary"),
+                    "pro__image": PRODUCT.get("image"),
+                    "pro__tags": PRODUCT.get("tags")
                 }
             ))
 

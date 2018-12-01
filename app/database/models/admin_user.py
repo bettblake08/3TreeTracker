@@ -1,13 +1,13 @@
-from db import db
+from app.database.db import DATABASE
 from werkzeug.security import check_password_hash
 
 
-class AdminUserModel(db.Model):
+class AdminUserModel(DATABASE.Model):
     __tablename__ = "admin_user"
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(16))
-    password = db.Column(db.String(160))
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    username = DATABASE.Column(DATABASE.String(16))
+    password = DATABASE.Column(DATABASE.String(160))
 
     def __init__(self, username, password):
         self.username = username
@@ -28,9 +28,9 @@ class AdminUserModel(db.Model):
         return check_password_hash(self.password, password)
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

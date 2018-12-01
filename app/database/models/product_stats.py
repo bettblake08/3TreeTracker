@@ -1,24 +1,24 @@
 import datetime
-from db import db
+from app.database.db import DATABASE
 
 
-class ProductStatsModel(db.Model):
+class ProductStatsModel(DATABASE.Model):
     __tablename__ = "product_stats"
 
-    id = db.Column(db.Integer, primary_key=True)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'))
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
-    reaction = db.Column(db.Integer)
-    seen = db.Column(db.Boolean)
-    reactionSeen = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    productId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('products.id'))
+    userId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('users.id'))
+    reaction = DATABASE.Column(DATABASE.Integer)
+    seen = DATABASE.Column(DATABASE.Boolean)
+    reactionSeen = DATABASE.Column(DATABASE.Boolean)
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow())
 
     # Reaction
     #1 - Liked
     #2 - Disliked
 
-    product = db.relationship('ProductModel')
-    user = db.relationship('UserModel')
+    product = DATABASE.relationship('ProductModel')
+    user = DATABASE.relationship('UserModel')
 
     def __init__(self, productId, userId):
         self.productId = productId
@@ -66,9 +66,9 @@ class ProductStatsModel(db.Model):
             return False
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

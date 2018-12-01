@@ -42,7 +42,7 @@ class DevelopmentConfig(Config):
     JWT_COOKIE_CSRF_PROTECT = False
 
 class DevDebugConfig(DevelopmentConfig):
-    DB_NAME = "longrich"
+    DB_NAME = "tree_tracker"
     DB_HOST = "localhost"
     DB_USER = "postgres"
     DB_PASSWORD = "m21c07s96"
@@ -54,7 +54,7 @@ class DevDebugConfig(DevelopmentConfig):
 
 class TestingConfig(DevelopmentConfig):
     TESTING = True
-    DB_NAME = "longrichtest"
+    DB_NAME = "tree_tracker_test"
     DB_HOST = "localhost"
     DB_USER = "postgres"
     DB_PASSWORD = "m21c07s96"

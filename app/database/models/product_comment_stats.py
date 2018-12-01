@@ -1,21 +1,21 @@
 import datetime
-from db import db
+from app.database.db import DATABASE
 
-class ProductCommentStatModel(db.Model):
+class ProductCommentStatModel(DATABASE.Model):
     __tablename__ = "product_comment_stats"
 
-    id = db.Column(db.Integer, primary_key=True)
-    commentId = db.Column(db.Integer, db.ForeignKey('product_comments.id'))
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
-    reaction = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    commentId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('product_comments.id'))
+    userId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('users.id'))
+    reaction = DATABASE.Column(DATABASE.Integer)
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow())
 
     # Reaction
     #1 - Liked
     #2 - Disliked
 
-    comment = db.relationship('ProductCommentModel')
-    user = db.relationship('UserModel')
+    comment = DATABASE.relationship('ProductCommentModel')
+    user = DATABASE.relationship('UserModel')
 
     def __init__(self, commentId, user):
         self.commentId = commentId
@@ -46,9 +46,9 @@ class ProductCommentStatModel(db.Model):
             return False
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

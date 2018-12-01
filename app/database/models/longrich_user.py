@@ -1,29 +1,30 @@
 import datetime
 import json
 
-from db import db
 from flask import jsonify
 from sqlalchemy import or_
 from werkzeug.security import check_password_hash
 
+from app.database.db import DATABASE
 
-class LongrichUserModel(db.Model):
+
+class LongrichUserModel(DATABASE.Model):
     __tablename__ = "accounts"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30))
-    surname = db.Column(db.String(30))
-    email = db.Column(db.String(30))
-    phoneNo = db.Column(db.String(20))
-    gender = db.Column(db.Integer)
-    nationality = db.Column(db.String(3))
-    placementId = db.Column(db.Integer)
-    parentId = db.Column(db.Integer)
-    verified = db.Column(db.Boolean)
-    code = db.Column(db.String(20))
-    password = db.Column(db.String(160))
-    downliners = db.Column(db.String(60))
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    name = DATABASE.Column(DATABASE.String(30))
+    surname = DATABASE.Column(DATABASE.String(30))
+    email = DATABASE.Column(DATABASE.String(30))
+    phoneNo = DATABASE.Column(DATABASE.String(20))
+    gender = DATABASE.Column(DATABASE.Integer)
+    nationality = DATABASE.Column(DATABASE.String(3))
+    placementId = DATABASE.Column(DATABASE.Integer)
+    parentId = DATABASE.Column(DATABASE.Integer)
+    verified = DATABASE.Column(DATABASE.Boolean)
+    code = DATABASE.Column(DATABASE.String(20))
+    password = DATABASE.Column(DATABASE.String(160))
+    downliners = DATABASE.Column(DATABASE.String(60))
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow())
 
     def __init__(self, **params):
         self.name = params["name"]
@@ -138,9 +139,9 @@ class LongrichUserModel(db.Model):
         return check_password_hash(self.password, password)
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

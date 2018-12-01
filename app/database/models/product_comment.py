@@ -2,25 +2,25 @@ import datetime
 
 from app.database.models.product_comment_stats import ProductCommentStatModel
 from app.database.models.user import UserModel
-from db import db
+from app.database.db import DATABASE
 
 
-class ProductCommentModel(db.Model):
+class ProductCommentModel(DATABASE.Model):
     __tablename__ = "product_comments"
 
-    id = db.Column(db.Integer, primary_key=True)
-    productId = db.Column(db.Integer, db.ForeignKey('products.id'))
-    userName = db.Column(db.String(60))
-    userEmail = db.Column(db.String(60))
-    comment = db.Column(db.String(5000))
-    seen = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    id = DATABASE.Column(DATABASE.Integer, primary_key=True)
+    productId = DATABASE.Column(DATABASE.Integer, DATABASE.ForeignKey('products.id'))
+    userName = DATABASE.Column(DATABASE.String(60))
+    userEmail = DATABASE.Column(DATABASE.String(60))
+    comment = DATABASE.Column(DATABASE.String(5000))
+    seen = DATABASE.Column(DATABASE.Boolean)
+    created_at = DATABASE.Column(DATABASE.DateTime, default=datetime.datetime.utcnow)
 
     # Reaction
     #1 - Liked
     #2 - Disliked
 
-    product = db.relationship('ProductModel')
+    product = DATABASE.relationship('ProductModel')
     stats = []
 
     def __init__(self, productId, userName, userEmail, comment):
@@ -97,11 +97,11 @@ class ProductCommentModel(db.Model):
             return False
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        DATABASE.session.add(self)
+        DATABASE.session.commit()
 
     def delete(self):
         ProductCommentStatModel.delete_all_comment_stats(self.id)
 
-        db.session.delete(self)
-        db.session.commit()
+        DATABASE.session.delete(self)
+        DATABASE.session.commit()

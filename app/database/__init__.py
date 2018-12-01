@@ -1,26 +1,33 @@
-from flask_sqlalchemy import sqlalchemy
-from flask import current_app
-from instance.config import TestingConfig
-from app.database.factory import generate_test_data, generate_initial_data
+import os
 
-engine = sqlalchemy.create_engine(
+from flask import current_app
+from flask_sqlalchemy import sqlalchemy
+
+from app.database.factory import generate_initial_data, generate_test_data
+from instance.config import APP_CONFIG
+
+CONFIG = APP_CONFIG[os.getenv("APP_ENV")]
+
+ENGINE = sqlalchemy.create_engine(
     "postgresql://{}:{}@{}/".format(
-        TestingConfig.DB_USER,
-        TestingConfig.DB_PASSWORD,
-        TestingConfig.DB_HOST
+        CONFIG.DB_USER,
+        CONFIG.DB_PASSWORD,
+        CONFIG.DB_HOST
     ))
+
+def create_database(name):
+    try:
+        conn = ENGINE.connect()
+        conn.execute("COMMIT")
+
+        conn.execute("CREATE DATABASE %s" % name)
+        conn.close()
+
+        print("Successfully created the {} database!".format(name))
+
+    except:
+        print("Failed to create the {} database!".format(name))
 
 
 def create_test_database():
-
-    try:
-        conn = engine.connect()
-        conn.execute("COMMIT")
-
-        conn.execute("CREATE DATABASE %s" % TestingConfig.DB_NAME)
-        conn.close()
-
-        print("Successfully created test database!")
-
-    except:
-        print("Failed to created test database!")
+    create_database(APP_CONFIG["TEST"].DB_NAME)

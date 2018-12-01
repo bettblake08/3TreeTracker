@@ -9,12 +9,13 @@ from app.api.v1.resources import (AdminLongrichUser, AdminProduct, AdminUser, Po
                                   RepoFile, RepoFolder, Tag,
                                   Tags, UploadAPI)
 
+
 API_V1_ADMIN = Blueprint("API_V1_ADMIN", __name__)
 
 API = Api(API_V1_ADMIN)
 ADMIN_CONTROLLER = AdminController()
 
-API.add_resource(AdminUser, '/user/<string:name>')
+API.add_resource(AdminUser, '/user/<string:param>')
 API.add_resource(RepoFolder, '/repoFolder/<string:param>')
 API.add_resource(RepoFile, '/repoFile/<string:id>')
 API.add_resource(Tag, '/tag/<string:param>')
