@@ -1,0 +1,1 @@
+from app.tests.v1.main.get_placements_endpoint import TestGetPlacementsEndpoint

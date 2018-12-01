@@ -12,7 +12,7 @@ def db_init_test():
     create_test_database()
 
     try:
-        db.create_all()
+        DATABASE.create_all()
         generate_test_data()
 
         print("Successfully initialized test database!")
@@ -28,21 +28,24 @@ def db_create():
 
 @APP.cli.command("db:init")
 def db_init():
+
+    DATABASE.create_all()
+    generate_initial_data() 
+    
     try:
-        db.create_all()
-        generate_initial_data()
 
         print("Successfully initialized database!")
 
     except:
-        print("Failed to create database!")
+        print("Failed to initialize database!")
 
 
 @APP.cli.command("db:teardown")
 def db_teardown():
     try:
-        db.drop_all()
+        DATABASE.drop_all()
         print("Successfully dropped all tables!")
+        
     except:
         print("Failed to drop database tables!")
 

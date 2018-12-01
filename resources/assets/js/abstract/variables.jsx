@@ -3,6 +3,7 @@ import MAIN_LOGO from "../../images/logo2.png";
 import USER_50 from "../../images/user_50.jpg";
 import USER_150 from "../../images/user_150.jpg";
 import USER_200 from "../../images/user_200.jpg";
+import LANDING_PAGE_BACKGROUND from "../../images/home.jpg";
 
 const WEB_URL = "http://localhost:5000/";
 const SOCKET_URL = "ws://localhost:8080/";
@@ -26,6 +27,7 @@ export {
     API_URL,
     SOCKET_URL,
     DEFAULT_PRODUCT_COVER_PIC,
+    LANDING_PAGE_BACKGROUND,
     DEFAULT_USER_PIC,
     MAIN_LOGO
 };

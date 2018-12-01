@@ -9,6 +9,7 @@ from app.api.v1.resources import (AdminLongrichUser, AdminProduct, AdminUser, Po
                                   RepoFile, RepoFolder, Tag,
                                   Tags, UploadAPI)
 
+
 API_V1_ADMIN = Blueprint("API_V1_ADMIN", __name__)
 
 API = Api(API_V1_ADMIN)

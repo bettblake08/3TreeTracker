@@ -1,7 +1,7 @@
 """ This module hosts the main controller class """
 import base64
 
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 
 from app.database.models import (LongrichUserModel, PostModel, ProductModel,
                                  TagModel)
@@ -49,23 +49,49 @@ class MainController:
         users = LongrichUserModel.find_by_name(name)
 
         if not users:
-            return {
+            return make_response(jsonify(
+                {
                 "message": "There are no users with the name {}!".format(name)
-            }
+                }
+            ), 404
+            )
 
-        return {
+        return make_response(jsonify(
+            {
             "message": "You have successfully retrieved the list of placements!",
             "content": [user.json() for user in users]
-        }, 200
+            }
+        ), 200
+        )
 
     @staticmethod
-    def get_products(offset):
+    def get_products(param):
         """ Get Products Endpoint
         :args
             offset  :   offset value used to paginate list of products
         """
 
+        try:
+            offset = int(param)
+
+        except:
+            return make_response(jsonify(
+                {
+                    "message": "Invalid offset!"
+                }
+            ), 400
+            )
+
         posts = PostModel.get_posts_by_offset(offset)
+
+        if not posts:
+            return make_response(jsonify(
+                {
+                    "message": "There are no more products to list from given offset!"
+                }
+            ), 404
+            )
+
         tags = []
 
         for post in posts:
@@ -98,10 +124,13 @@ class MainController:
             post_data["tags"] = post_tags_data
             content.append(post_data)
 
-        return {
-            "message": "You have successfully retrieved all the products",
-            "content": content
-            }, 200
+        return make_response(jsonify(
+                {
+                "message": "You have successfully retrieved all the products!",
+                "content": content
+                }
+            ), 200
+        )
 
     @staticmethod
     def product_reaction(param, param2):
@@ -112,32 +141,47 @@ class MainController:
             product_id = int(param)
 
         except:
-            return jsonify({
+            return make_response(jsonify(
+                {
                 "message": "Invalid request!"
-            }), 400
+                }
+            ), 400
+            )
 
         if product_reaction not in [0, 1, 2]:
-            return {
+            return make_response(jsonify(
+                {
                 "message": "Invalid reaction id!"
-            }
+                }
+            ), 400
+            )
 
-        comment = ProductModel.find_by_id(product_id)
+        product = ProductModel.find_by_id(product_id)
 
-        if not comment:
-            return {
-                "message": "Comment does not exist!"
-            }, 404
+        if not product:
+            return make_response(jsonify(
+                {
+                "message": "Product does not exist!"
+                }
+            ), 404
+            )
             
         try:
-            comment.set_reaction(request.remote_addr, product_reaction)
-            return {
-                "message": "You have successfully set a reaction to the comment!"
-                }, 200
+            product.set_reaction(request.remote_addr, product_reaction)
+            return make_response(jsonify(
+                {
+                "message": "You have successfully set a reaction to the product!"
+                }
+            ), 200
+            )
         
         except:
-            return {
-                "message": "Failed to set the reaction to a comment!"
-            }, 500
+            return make_response(jsonify(
+                {
+                "message": "Failed to set the reaction to a product!"
+                }
+            ), 500
+            )
 
     @staticmethod
     def get_form():

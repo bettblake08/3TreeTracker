@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 import React, { Component } from 'react';
 import Slider from "react-slick";
 import {getCountries} from '../../abstract/country';
-import {WEB_URL, API_URL} from '../../abstract/variables';
+import {WEB_URL, API_URL, LANDING_PAGE_BACKGROUND} from '../../abstract/variables';
 import PlacementInput from '../placementInput';
 import Button from '../UI/button';
 import DateInput from '../UI/dateInput';
@@ -102,6 +102,10 @@ class LandingView extends Component {
             <Slider {...settings}>
                 <div>
                     <div className="lview--1 lview">
+                        <div className="lview__background">
+                            <img src={LANDING_PAGE_BACKGROUND} alt="Home"/>
+                        </div>
+
                         <div className="lview__content">
                             <div className="lview__title f_title ">Cultivating the Future</div>
                             <div className="lview__body f_h1">
@@ -124,110 +128,6 @@ class LandingView extends Component {
                        
                     </div>
                 </div>
-
-                <div>
-                    <div className="lview--2 lview">
-                        <div className="lview__content">
-
-                            <div className="lview__title f_title ">A student can </div>
-                            <div className="lview__body f_h1">
-                                <ul>
-                                    <li>Communicate and share resources with teachers and students.</li>
-                                    <li>Keep up with the latest info from institutions, students and teachers</li>
-                                    <li>Manage their student info</li>
-                                    <li>View their grades</li>
-                                    <li>View and manage their school schedule</li>
-                                    <li>Perform reviews and ratings</li>
-                                    <li>And much more ...</li>
-                                </ul>
-
-
-                            </div>
-
-                        </div>
-
-
-                        <div className="lview__buttons">
-                            <div className="lview__button">
-                                <a href={WEB_URL + 'login'}>
-                                    <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
-                                </a>
-                            </div>
-
-                            <div className="lview__button">
-                                <a href={WEB_URL + 'sign_up'}>
-                                    <div className="btn_1--edulink f_button_2 t-55 f_text-capitalize"></div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div className="lview--3 lview">
-                        <div className="lview__content">
-
-                            <div className="lview__title f_title ">A teacher can </div>
-                            <div className="lview__body f_h1">
-                                <ul>
-                                    <li>Manage their profile</li>
-                                    <li>Communicate and share resources with teachers and students all over the world</li>
-                                    <li>Keep up with the latest news from institutions, students and teachers</li>
-                                    <li>Update and maintain student grades</li>
-                                    <li>Execute attendance check</li>
-                                    <li>And much more ...</li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                        <div className="lview__buttons">
-                            <div className="lview__button">
-                                <a href={WEB_URL + 'login'}>
-                                    <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div>
-                    <div className="lview--4 lview">
-                        <div className="lview__content">
-
-                            <div className="lview__title f_title ">An institution can </div>
-                            <div className="lview__body f_h1">
-
-                                <li>Manage a personalized subdomain</li>
-                                <li>Manage students and Teaching staff</li>
-                                <li>Easily and seemlessly schedule class timetables</li>
-                                <li>Post news feeds</li>
-                                <li>Monitor attendance</li>
-                                <li>Manage online student applications</li>
-                                
-                            </div>
-                        </div>
-
-                        <div className="lview__buttons">
-                            <div className="lview__button">
-                                <a href={WEB_URL + 'insAdmin/login'}>
-                                    <div className="btn_1--edulink f_button_2 t-10 f_text-capitalize"></div>
-                                </a>
-                            </div>
-
-                            <div className="lview__button">
-                                <a href={WEB_URL + 'insAdmin/registration'}>
-                                    <div className="btn_1--edulink f_button_2 t-55 f_text-capitalize"></div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
 
             </Slider>
         );
