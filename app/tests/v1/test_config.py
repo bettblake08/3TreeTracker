@@ -19,6 +19,8 @@ class APITestCase(unittest.TestCase):
 
         DATABASE.create_all()
         generate_test_data()
+
+        cls.response = None
         
         cls.test_client = cls.app.test_client()
 
@@ -42,6 +44,21 @@ class APITestCase(unittest.TestCase):
         DATABASE.session.session_factory.close_all()
         DATABASE.drop_all()
 
+    def check_status_code(self, response, status_code):
+        self.assertEqual(
+            response.status_code,
+            status_code,
+            "Unexpected status code!"
+        )
+
+    def check_response_message(self, response, expected_message):
+        data = json.loads(response.data)
+
+        self.assertEqual(
+            data["message"],
+            expected_message,
+            "Unexpected response message!"
+        )
 
 class ADMINAPITestCase(APITestCase):
 
