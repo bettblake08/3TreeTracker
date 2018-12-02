@@ -5,9 +5,8 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 set_refresh_cookies, unset_jwt_cookies)
 from flask_restful import reqparse
 
-from app.database.models import (AdminUserModel, LongrichUserModel, PostModel, RepoFolderModel,
-                                 RevokedTokenModel, TagModel)
-
+from app.database.models import (AdminUserModel, LongrichUserModel, PostModel,
+                                 RepoFolderModel, RevokedTokenModel, TagModel)
 from app.managers import Serialization
 
 
@@ -177,11 +176,13 @@ class AdminController:
 
             content.append(post_data)
 
-        return make_response(
-            jsonify({
-            "message": "You have successfully retrieved the list of posts!",
-            "content": content
-        }), 200)
+        return make_response(jsonify(
+            {
+                "message": "You have successfully retrieved the list of posts!",
+                "content": content
+            }
+        ), 200
+        )
 
     @staticmethod
     def get_longrich_accounts(name, country, offset):
@@ -195,9 +196,14 @@ class AdminController:
         try:
             offset = int(offset)
         except:
-            return make_response(jsonify({
-                "message": "Invalid offset!"
-            }), 400)
+            return make_response(
+                jsonify(
+                    {
+                        "message": "Invalid offset!"
+                    }
+                ),
+                400
+            )
 
         users = LongrichUserModel.get_users_by_offset(name, country, offset)
 
@@ -223,10 +229,12 @@ class AdminController:
 
             content.append(user_data)
 
-        return make_response(jsonify({
-            "message": "You have successfully retrieved the list of user accounts!",
-            "content": content
-        }), 200)
+        return make_response(jsonify(
+            {
+                "message": "You have successfully retrieved the list of user accounts!",
+                "content": content
+            }
+        ), 200)
 
     @staticmethod
     def validate_login_data(data):

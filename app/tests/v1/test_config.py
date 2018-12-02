@@ -60,7 +60,7 @@ class APITestCase(unittest.TestCase):
             "Unexpected response message!"
         )
 
-class ADMINAPITestCase(APITestCase):
+class AdminAPITestCase(APITestCase):
 
     @classmethod
     def setUpClass(cls):

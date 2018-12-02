@@ -1,10 +1,10 @@
 from flask import json
 
-from app.tests.v1.test_config import ADMINAPITestCase
+from app.tests.v1.test_config import AdminAPITestCase
 from app.tests.v1.test_data import PRODUCT
 
 
-class TestUpdateProductEndpoint(ADMINAPITestCase):
+class TestUpdateProductEndpoint(AdminAPITestCase):
     
     def update_product(self, data, product_id):
         return self.test_client.put(
