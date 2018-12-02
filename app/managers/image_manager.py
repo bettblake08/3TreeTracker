@@ -7,7 +7,7 @@ from PIL import Image
 
 class ImageManager:
     BASE_DIR = os.path.dirname(__file__)
-    UPLOAD_DIRECTORY = os.path.join(BASE_DIR, '../../Public/repo/upload')
+    UPLOAD_DIRECTORY = os.path.join(BASE_DIR, '../../public/repo/upload')
 
     @classmethod
     def create_thumbnails(cls, current_file):

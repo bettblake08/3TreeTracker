@@ -1,8 +1,9 @@
 import os
 
 from app import create_app
-from app.database import (create_test_database, generate_initial_data,
-                          generate_test_data, create_database)
+from app.database import (create_test_database, create_database)
+
+from app.database.factory import generate_test_data, generate_initial_data, teardown_test_data
 from app.database.db import DATABASE
 
 APP = create_app(os.getenv("APP_ENV"))
@@ -11,10 +12,11 @@ APP = create_app(os.getenv("APP_ENV"))
 def db_init_test():
     create_test_database()
 
-    try:
-        DATABASE.create_all()
-        generate_test_data()
+    DATABASE.create_all()
+    generate_test_data()
 
+    try:
+        
         print("Successfully initialized test database!")
 
     except:
@@ -42,6 +44,7 @@ def db_init():
 
 @APP.cli.command("db:teardown")
 def db_teardown():
+    
     try:
         DATABASE.drop_all()
         print("Successfully dropped all tables!")

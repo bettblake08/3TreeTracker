@@ -17,7 +17,7 @@ ADMIN_CONTROLLER = AdminController()
 
 API.add_resource(AdminUser, '/user/<string:param>')
 API.add_resource(RepoFolder, '/repoFolder/<string:param>')
-API.add_resource(RepoFile, '/repoFile/<string:id>')
+API.add_resource(RepoFile, '/repoFile/<string:file_id>')
 API.add_resource(Tag, '/tag/<string:param>')
 API.add_resource(Tags, '/tags/<string:param>')
 API.add_resource(Post, '/post/<string:param>')

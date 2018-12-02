@@ -1,5 +1,4 @@
 import os
-import os.path
 import shutil
 import random
 
@@ -27,16 +26,20 @@ class FineUploader:
         """ Handles a filesystem delete based on UUID."""
         folder_path = os.path.join(
             cls.UPLOAD_DIRECTORY,
-            current_file.name,
-            "/")
+            "{}/".format(current_file.name)
+        )
+
         shutil.rmtree(folder_path)
 
         file_path = os.path.join(
             cls.UPLOAD_DIRECTORY,
-            current_file.name,
-            ".",
-            current_file.fileType)
-        shutil.rmtree(file_path)
+            "{}.{}".format(
+                current_file.name,
+                current_file.fileType
+                )
+            )
+
+        os.remove(file_path)
 
     @classmethod
     def handle_upload(cls, upload_file, attrs):
@@ -88,7 +91,8 @@ class FineUploader:
 
             dest = os.path.join(
                 cls.UPLOAD_DIRECTORY,
-                file_name + "." + original_name[1])
+                file_name + "." + original_name[1]
+            )
             cls.save_upload(upload_file, dest)
 
             ImageManager.create_thumbnails(new_file)
@@ -111,6 +115,7 @@ class FineUploader:
                 original_name[1],
                 folder_id,
                 attrs['qquuid'])
+
             new_file.save()
 
             dst = os.path.join(

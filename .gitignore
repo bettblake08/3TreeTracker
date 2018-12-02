@@ -2,8 +2,10 @@ node_modules/
 dist/
 env/
 build/
-Longrich.egg-info/
+3TreeTracker.egg-info/
 __pycache__/
 
 npm-debug.log
 *.pyc
+
+public/repo/

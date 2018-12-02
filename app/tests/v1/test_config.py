@@ -42,6 +42,7 @@ class APITestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+
         DATABASE.session.session_factory.close_all()
         DATABASE.drop_all()
 
@@ -63,6 +64,7 @@ class APITestCase(unittest.TestCase):
 
 
 class AdminAPITestCase(APITestCase):
+    """ This class is a TestCase subclass for the admin API test environment """
 
     @classmethod
     def setUpClass(cls):

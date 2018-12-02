@@ -33,7 +33,8 @@ class RepoFileModel(DATABASE.Model):
             "originalName": self.originalName,
             "type": self.fileType,
             "folderId": self.folderId,
-            'uuid': self.uuid}
+            'uuid': self.uuid
+        }
 
     @classmethod
     def find_by_name(cls, name):
@@ -52,9 +53,8 @@ class RepoFileModel(DATABASE.Model):
     def get_files_by_folder(cls, folderId):
         return cls.query.filter_by(folderId=folderId)
 
-    @classmethod
-    def check_if_used(cls):
-        return False
+    def check_if_used(self):
+        return self.usedBy > 0
 
     def increase_users(self):
         self.usedBy = self.usedBy + 1
@@ -69,8 +69,8 @@ class RepoFileModel(DATABASE.Model):
         DATABASE.session.commit()
 
     def delete(self):
-        from App.Managers.FineUploader import FineUploader
+        from app.managers.fine_uploader import FineUploader
 
-        FineUploader().handle_file_delete(self)
+        FineUploader.handle_file_delete(self)
         DATABASE.session.delete(self)
         DATABASE.session.commit()
