@@ -42,9 +42,9 @@ class RepoFolderModel(DATABASE.Model):
         return resp
 
     @classmethod
-    def get_root_content(cls, folderId):
-        files = RepoFileModel.get_files_by_folder(folderId)
-        folders = cls.query.filter_by(parent=folderId)
+    def get_root_content(cls):
+        files = RepoFileModel.get_files_by_folder(0)
+        folders = cls.query.filter_by(parent=0)
 
         resp = {
             "files": [x.json() for x in files],

@@ -111,30 +111,56 @@ class AdminController:
         return jsonify({"error": 0})
 
     @staticmethod
-    def retrieve_repo_content_by_folder(folder_id):
+    def retrieve_repo_content_by_folder(param):
         """ Get Repo Folder Content Endpoint
         :args
             folder_id   :   Repo folder id
         """
-        if folder_id == "root":
-            content = RepoFolderModel.get_root_content(folder_id)
-            return jsonify({
-                "message": "You have successfully retrieved the repo content!",
-                "content": content
-            }), 200
+        if param == "root":
+            content = RepoFolderModel.get_root_content()
+            return make_response(
+                jsonify({
+                    "message": "You have successfully retrieved the repo folder content!",
+                    "content": content
+                }),
+                200
+            )
+            
+        try:
+            folder_id = int(param)
+
+        except:
+            return make_response(
+                jsonify(
+                    {
+                        "message": "Invalid folder id!"
+                    }
+                ),
+                400
+            )
 
         folder = RepoFolderModel.find_by_id(folder_id)
-
+        
         if not folder:
-            return {
-                "message": "Folder does not exist!"
-            }, 404
+            return make_response(
+                jsonify(
+                    {
+                    "message": "Repo folder does not exist!"
+                    }
+                ),
+                404
+            )
 
         content = folder.get_content(folder_id)
-        return jsonify({
-            "message": "You have successfully retrieved the repo folder content!",
-            "content": content
-        }), 200
+        return make_response(
+            jsonify(
+                {
+                "message": "You have successfully retrieved the repo folder content!",
+                "content": content
+                }
+            ),
+            200
+        )
 
     @staticmethod
     def get_products(offset):

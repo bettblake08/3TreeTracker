@@ -21,7 +21,7 @@ class APITestCase(unittest.TestCase):
         generate_test_data()
 
         cls.response = None
-        
+
         cls.test_client = cls.app.test_client()
 
     @classmethod
@@ -33,7 +33,8 @@ class APITestCase(unittest.TestCase):
                     "username": "johndoe2",
                     "password": "johndoe@A2"
                 }),
-            content_type="application/json")
+            content_type="application/json"
+        )
 
     @classmethod
     def admin_logout(cls):
@@ -59,6 +60,7 @@ class APITestCase(unittest.TestCase):
             expected_message,
             "Unexpected response message!"
         )
+
 
 class AdminAPITestCase(APITestCase):
 
