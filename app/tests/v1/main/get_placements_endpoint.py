@@ -15,19 +15,13 @@ class TestGetPlacementsEndpoint(APITestCase):
 
         response = self.get_placement("james jordan")
 
+        self.check_status_code(response, 200)
+        self.check_response_message(
+            response,
+            "You have successfully retrieved the list of placements!"
+        )
+
         data = json.loads(response.data)
-
-        self.assertEqual(
-            response.status_code,
-            200,
-            "Unexpected status code!"
-        )
-
-        self.assertEqual(
-            data["message"],
-            "You have successfully retrieved the list of placements!",
-            "Unexpected response message!"
-        )
 
         self.assertEqual(
             len(data["content"]),
@@ -38,16 +32,9 @@ class TestGetPlacementsEndpoint(APITestCase):
     def test_using_valid_data(self):
         response = self.get_placement("john doe")
 
-        data = json.loads(response.data)
-
-        self.assertEqual(
-            response.status_code,
-            200,
-            "Unexpected status code!"
+        self.check_status_code(response, 200)
+        self.check_response_message(
+            response,
+            "You have successfully retrieved the list of placements!"
         )
-
-        self.assertEqual(
-            data['message'],
-            "You have successfully retrieved the list of placements!",
-            "Unexpected response message!"
-        )
+        
