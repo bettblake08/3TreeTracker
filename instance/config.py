@@ -16,14 +16,23 @@ class Config(object):
 
     REPO_DIR = "public/repo/"
 
+    DB_NAME = os.getenv("DB_NAME")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+
+    SQLALCHEMY_URI = 'postgresql://{}:{}@{}/'.format(
+        DB_USER, DB_PASSWORD, DB_HOST
+    )
+
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI + DB_NAME
+
 
 class ProductionConfig(Config):
     ENV = "production"
-    FLASK_ENV = "development"
+    FLASK_ENV = "production"
     DEBUG = True
     SECRET_KEY = os.getenv("SECRET_KEY")
-
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
 
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     JWT_COOKIE_SECURE = True
@@ -43,32 +52,23 @@ class DevelopmentConfig(Config):
     JWT_COOKIE_DOMAIN = "127.0.0.1"
 
 
-class DevDebugConfig(DevelopmentConfig):
-    DB_NAME = "tree_tracker"
-    DB_HOST = "localhost"
-    DB_USER = "postgres"
-    DB_PASSWORD = "m21c07s96"
-
-    SQLALCHEMY_URI = 'postgresql://' + DB_USER + ':' + DB_PASSWORD \
-        + '@' + DB_HOST + '/'
-    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI + DB_NAME
-
-
 class TestingConfig(DevelopmentConfig):
     TESTING = True
-    DB_NAME = "tree_tracker_test"
-    DB_HOST = "localhost"
-    DB_USER = "postgres"
-    DB_PASSWORD = "m21c07s96"
+    
+    DB_NAME = os.getenv("TEST_DB_NAME")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-    SQLALCHEMY_URI = 'postgresql://' + DB_USER + ':' + DB_PASSWORD \
-        + '@' + DB_HOST + '/'
+    SQLALCHEMY_URI = 'postgresql://{}:{}@{}/'.format(
+        DB_USER, DB_PASSWORD, DB_HOST
+    )
     SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI + DB_NAME
 
 
 APP_CONFIG = {
     "DEFAULT":DevelopmentConfig,
-    "DEV":DevDebugConfig,
+    "DEV":DevelopmentConfig,
     "TEST":TestingConfig,
     "PROD":ProductionConfig
 }

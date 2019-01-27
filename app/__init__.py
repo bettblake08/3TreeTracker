@@ -4,13 +4,11 @@
 from os import path
 
 from flask import Flask, redirect, url_for
-from flask_webpack import Webpack
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
 from app.database.db import DATABASE
 
-from app.pages import ADMIN_PAGES, MAIN_PAGES
 from app.api.v1 import API_V1_ADMIN, API_V1_MAIN, API_V1_USER
 
 from instance.config import APP_CONFIG
@@ -31,14 +29,9 @@ def create_app(config_name):
 
     app.config.from_object(APP_CONFIG[config_name])
 
-    app.register_blueprint(MAIN_PAGES)
-    app.register_blueprint(ADMIN_PAGES, url_prefix="/admin")
     app.register_blueprint(API_V1_MAIN, url_prefix="/api/v1")
     app.register_blueprint(API_V1_ADMIN, url_prefix="/api/v1/admin")
     app.register_blueprint(API_V1_USER, url_prefix="/api/v1/user")
-
-    webpack = Webpack()
-    webpack.init_app(app)
 
     DATABASE.init_app(app)
 

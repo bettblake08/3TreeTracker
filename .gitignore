@@ -10,5 +10,5 @@ npm-debug.log
 
 public/repo/
 
-.env
+*.env
 *.DS_Store

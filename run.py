@@ -53,4 +53,4 @@ def db_teardown():
         print("Failed to drop database tables!")
 
 if __name__ == "__main__":
-    APP.run(extra_files=[APP.config["WEBPACK_MANIFEST_PATH"]])
+    APP.run()
