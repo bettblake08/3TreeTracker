@@ -12,3 +12,4 @@ public/repo/
 
 *.env
 *.DS_Store
+migrations/

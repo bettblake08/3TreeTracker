@@ -6,6 +6,7 @@ from os import path
 from flask import Flask, redirect, url_for
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from app.database.db import DATABASE
 
@@ -34,6 +35,8 @@ def create_app(config_name):
     app.register_blueprint(API_V1_USER, url_prefix="/api/v1/user")
 
     DATABASE.init_app(app)
+
+    migrate = Migrate(app, DATABASE)
 
     cors = CORS(app, 
         resources={r"/api/*": {

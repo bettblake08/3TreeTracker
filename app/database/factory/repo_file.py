@@ -11,7 +11,7 @@ from instance.config import Config
 BASE_DIR = os.path.dirname(__file__)
 IMAGE_DIRECTORY = os.path.join(
     BASE_DIR,
-    '../../../resources/assets/images/'
+    '../../../assets/images/'
 )
 
 UPLOAD_DIR = os.path.join(BASE_DIR, "../../../{}upload/".format(Config.REPO_DIR))
