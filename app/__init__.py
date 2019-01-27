@@ -6,6 +6,7 @@ from os import path
 from flask import Flask, redirect, url_for
 from flask_webpack import Webpack
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from app.database.db import DATABASE
 
@@ -41,6 +42,12 @@ def create_app(config_name):
 
     DATABASE.init_app(app)
 
+    cors = CORS(app, 
+        resources={r"/api/*": {
+            "origins": "*"
+            }}
+    )
+
     JWT = JWTManager(app)
 
     @JWT.token_in_blacklist_loader
@@ -50,15 +57,5 @@ def create_app(config_name):
         """
         jti = decrypted_token['jti']
         return RevokedTokenModel.is_token_blacklisted(jti)
-
-
-    @JWT.unauthorized_loader
-    @JWT.invalid_token_loader
-    @JWT.expired_token_loader
-    def redirect_to_login(error):
-        """ This function redirects any url call that contains an expired, 
-            unauthorized or invalid token to the admin login.
-        """
-        return redirect(url_for("ADMIN_PAGES.admin_login_page"))
 
     return app
